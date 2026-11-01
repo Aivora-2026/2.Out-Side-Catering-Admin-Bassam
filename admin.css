@@ -142,3 +142,32 @@ html[lang="ar"] .payh{font-family:"Tajawal",sans-serif}
 dialog{max-height:92vh;overflow:auto}
 #payDialog .dlg-actions .ghost{grid-column:1/-1}
 
+.b .signed{font-weight:700;color:var(--leaf);font-size:.95rem}
+
+#agDialog .dlg-actions .go{grid-column:auto}
+input.calc{background:var(--surface);color:var(--muted);font-weight:700;cursor:default}
+.pm{border:2px solid var(--leaf);cursor:pointer;font:700 1rem "Source Sans 3",sans-serif;color:var(--leaf);background:transparent}
+html[lang="ar"] .pm{font-family:"Tajawal",sans-serif}
+.pm:hover{background:var(--leaf);color:var(--leaf-ink)}
+
+/* tablets: give the search, filters and buttons room so nothing is squeezed */
+@media (max-width:1000px){
+  .toolbar{grid-template-columns:1fr 1fr}
+  .toolbar #q{grid-column:1/-1}
+}
+
+/* first party signature card */
+#fpBox{max-width:34rem}
+#fpBox .sub{margin-top:.8rem}
+.fpcur{display:flex;align-items:center;flex-wrap:wrap;gap:.8rem;margin:0 0 1rem;font-weight:700}
+.fpcur img{display:block;max-width:14rem;max-height:6rem;padding:.3rem .6rem;background:#fff;border:1px solid var(--line);border-radius:8px}
+.fppad{position:relative;margin:0 0 .8rem;background:#fbfcfb;border:1.5px dashed #8a9a90;border-radius:10px}
+.fppad canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
+.fphint{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;color:#a9b4ad;pointer-events:none}
+.fppad.drawn .fphint{display:none}
+#fpBox .actions .go{width:auto;padding:.7rem 1.4rem}
+
+.fph{font:800 1.05rem "Bricolage Grotesque",sans-serif;margin:1.4rem 0 .3rem}
+html[lang="ar"] .fph{font-family:"Tajawal",sans-serif}
+#fpBox .sub{margin-top:.4rem}
+#fpBox > .sub:first-of-type{margin-top:.8rem}

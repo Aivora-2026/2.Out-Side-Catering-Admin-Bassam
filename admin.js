@@ -8,6 +8,12 @@
   var EN = {
     title: document.title, langBtn: 'العربية', ariaLang: 'Switch language',
     invalid_code: 'Wrong security code.',
+    fpDraw: 'Please draw the signature first.', fpSaved: 'Signature saved. Customers will see it on their agreement.', fpRemoved: 'Saved signature removed.', bad_signature: 'The signature could not be saved. Please try again.',
+    invalid_pin: 'Wrong signing code.', locked_pin: 'Too many wrong signing codes. Please wait 15 minutes.', not_configured: 'First set the concerned person and signing code in the First party signature card.',
+    pin_required: 'Please choose a signing code.', pin_too_short: 'The signing code must be at least 6 characters.', bad_name: 'Please enter the name of the concerned person.',
+    fpNeedName: 'Please enter the name of the concerned person.', fpNeedPinNew: 'Please choose a signing code (at least 6 characters).', fpNeedPinOld: 'Please enter the current signing code to change these details.',
+    fpNeedPin: 'Please enter the signing code.', fpWhoSaved: 'Saved. Only someone with the signing code can now sign for the first party.',
+    st_completed: 'Completed', // not offered any more, but older bookings may still have this status
     locked: 'Too many wrong attempts. Please wait 15 minutes and try again.',
     too_short: 'The new code must be at least 10 characters.',
     bad_status: 'That status is not allowed.',
@@ -21,8 +27,10 @@
     guests: 'guests', hijriChosen: ' (customer chose Hijri)', received: 'Received ', siteLang: ' · site language: ',
     langAr: 'Arabic', langEn: 'English', show: 'Show', hide: 'Hide', statusOf: 'Status of ',
     empty: 'No bookings match.',
+    agSigned: 'Agreement signed by customer', pmBtn: 'Payment', agNeedAmounts: 'Add the payment amounts first.',
+    signed_locked: 'The customer already signed this agreement, so the amounts can no longer be changed.',
     waBtn: 'Message customer on WhatsApp', waDone: 'Booking confirmed. Send the customer a WhatsApp message?', waOpen: 'Open WhatsApp', waDoneCancel: 'Booking cancelled. Send the customer a WhatsApp message?',
-    agBtn: 'Agreement', agBlocked: 'Pop-up blocked. Allow pop-ups for this page and try again.',
+    agBtn: 'Agreement', agBlocked: 'Pop-up blocked. Allow pop-ups for this page and try again.', agPkgFilled: 'Filled in from the package price:', agPkgIs: 'Package price on the booking:',
     bad_amounts: 'The deposit cannot be more than the total amount.', not_found: 'Booking not found.',
     lAmounts: 'Amounts', sar: 'SAR', pTotal: 'Total', pDeposit: 'Deposit', pRemaining: 'Remaining', pSecurity: 'Security',
     totalsRow: 'Total',
@@ -64,10 +72,12 @@
     guests: 'ضيف', hijriChosen: ' (اختار العميل التقويم الهجري)', received: 'وصل الطلب: ', siteLang: ' · لغة الموقع: ',
     langAr: 'العربية', langEn: 'الإنجليزية', show: 'إظهار', hide: 'إخفاء', statusOf: 'حالة الحجز ',
     empty: 'لا توجد حجوزات مطابقة.',
+    agSigned: 'العقد موقّع من العميل', pmBtn: 'الدفع', agNeedAmounts: 'أضف مبالغ الدفع أولاً.',
+    signed_locked: 'قام العميل بتوقيع العقد، لذلك لا يمكن تغيير المبالغ بعد الآن.',
     waBtn: 'مراسلة العميل عبر واتساب', waDone: 'تم تأكيد الحجز. هل تريد إرسال رسالة واتساب للعميل؟', waOpen: 'فتح واتساب', waDoneCancel: 'تم إلغاء الحجز. هل تريد إرسال رسالة واتساب للعميل؟',
-    agTitle: 'المبالغ والعقد', agSub: 'أدخل المبالغ. يتم حفظها لقسم الحسابات. اترك الحقل فارغاً إذا أردت كتابته بخط اليد في العقد.',
+    agTitle: 'تفاصيل الدفع', agSub: 'أدخل المبالغ المتفق عليها. تُحفظ لقسم الحسابات وتُستخدم في العقد.',
     agTotal: 'إجمالي المبلغ (ريال)', agDeposit: 'العربون المدفوع (ريال)', agInsurance: 'مبلغ التأمين (ريال)',
-    agRemaining: 'المتبقي', agCreate: 'إنشاء العقد', agSave: 'حفظ فقط', agSkip: 'إغلاق', agBtn: 'العقد',
+    agRemaining: 'المتبقي (ريال)', agSaveBtn: 'حفظ', agSkip: 'إغلاق', agBtn: 'العقد',
     tabBookings: 'الحجوزات', tabAccounts: 'الحسابات',
     acTotalL: 'إجمالي العقود (ريال)', acPaidL: 'إجمالي المستلم (ريال)', acRemainL: 'المتبقي للتحصيل (ريال)', acSecL: 'التأمين المحجوز (ريال)',
     thRef: 'رقم الحجز', thCustomer: 'العميل', thDate: 'تاريخ المناسبة', thStatus: 'الحالة', thTotal: 'الإجمالي (ريال)',
@@ -86,7 +96,7 @@
     over_balance: 'المبلغ أكبر من المتبقي للتحصيل.',
     payVoid: 'إلغاء', payVoided: ' (ملغاة)', payConfirmVoid: 'هل تريد إلغاء هذه الدفعة؟ لن تُحتسب بعد الآن.',
     noPayments: 'لا توجد دفعات بعد.', paySaved: 'تم تسجيل الدفعة: ',
-    agBlocked: 'تم حظر النافذة المنبثقة. اسمح بالنوافذ المنبثقة لهذه الصفحة ثم حاول مرة أخرى.',
+    agBlocked: 'تم حظر النافذة المنبثقة. اسمح بالنوافذ المنبثقة لهذه الصفحة ثم حاول مرة أخرى.', fpTitle: 'توقيع الطرف الأول', fpSub: 'يوقّع عن الطرف الأول شخص مفوّض واحد فقط. حدّد اسمه ورمز توقيعه أدناه؛ لا يستطيع غيره التوقيع عن الطرف الأول حتى لو كان مسؤولاً آخر في الإدارة. يمكنك أيضاً حفظ توقيع افتراضي يظهر في العقود.', fpCurrent: 'التوقيع المحفوظ', fpHint: 'وقّع هنا', fpSave: 'حفظ التوقيع', fpClear: 'مسح', fpRemove: 'حذف التوقيع المحفوظ', fpDraw: 'يرجى رسم التوقيع أولاً.', fpSaved: 'تم حفظ التوقيع. سيراه العملاء في عقودهم.', fpRemoved: 'تم حذف التوقيع المحفوظ.', bad_signature: 'تعذر حفظ التوقيع. حاول مرة أخرى.', invalid_pin: 'رمز التوقيع غير صحيح.', locked_pin: 'محاولات كثيرة برمز توقيع خاطئ. يرجى الانتظار 15 دقيقة.', not_configured: 'اضبط أولاً اسم المفوّض ورمز التوقيع من بطاقة توقيع الطرف الأول.', pin_required: 'يرجى اختيار رمز توقيع.', pin_too_short: 'رمز التوقيع يجب ألا يقل عن 6 خانات.', bad_name: 'يرجى إدخال اسم المفوّض.', fpNeedName: 'يرجى إدخال اسم المفوّض.', fpNeedPinNew: 'يرجى اختيار رمز توقيع (6 خانات على الأقل).', fpNeedPinOld: 'أدخل رمز التوقيع الحالي لتغيير هذه البيانات.', fpNeedPin: 'يرجى إدخال رمز التوقيع.', fpWhoSaved: 'تم الحفظ. لا يستطيع التوقيع عن الطرف الأول إلا من يعرف رمز التوقيع.', fpWhoTitle: 'من يوقّع عن الطرف الأول', fpWhoSub: 'يوقّع عن الطرف الأول شخص واحد مفوّض فقط، وهو من يعرف رمز التوقيع. يظهر اسمه في العقد.', fpName: 'اسم المفوّض', fpPinOld: 'رمز التوقيع الحالي', fpPinNew: 'رمز توقيع جديد (6 خانات على الأقل)', fpSaveWho: 'حفظ بيانات المفوّض', fpDefTitle: 'التوقيع الافتراضي', fpPin: 'رمز التوقيع', agPkgFilled: 'تمت التعبئة من سعر الباقة:', agPkgIs: 'سعر الباقة في الحجز:',
     type_Wedding: 'زواج', type_Birthday: 'عيد ميلاد', type_Family: 'لقاء عائلي',
     type_Iftar: 'إفطار رمضان', type_Corporate: 'فعالية شركة', type_Other: 'أخرى',
     menu_Rice: 'كبسة ومندي', menu_Grill: 'مشويات ومضبي', menu_Both: 'كبسة ومندي ومشويات',
@@ -146,7 +156,7 @@
   function forget() { try { sessionStorage.removeItem('adm'); } catch (e) {} }
   function bumpIdle() { clearTimeout(idleTimer); if (code) idleTimer = setTimeout(lock, IDLE_MS); }
   function lock() {
-    code = null; rows = []; forget(); clearTimeout(idleTimer);
+    code = null; rows = []; forget(); clearTimeout(idleTimer); fpLoaded = false; ['fpPin', 'fpPinNew', 'fpPinOld'].forEach(function (id) { $(id).value = ''; });
     $('list').innerHTML = ''; $('code').value = '';
     if ($('agDialog').open) $('agDialog').close();
     if ($('payDialog').open) $('payDialog').close();
@@ -199,11 +209,9 @@
       }
       return true;
     });
-    var asc = wh === 'upcoming';
-    out.sort(function (a, b) {
-      var ka = a.event_date + a.event_time, kb = b.event_date + b.event_time;
-      return asc ? (ka < kb ? -1 : 1) : (ka < kb ? 1 : -1);
-    });
+    // newest reservation first: the booking number, highest to lowest (QS-1010 above QS-1009 above QS-999)
+    function refNum(r) { var n = parseInt(String(r.reference || '').replace(/\D/g, ''), 10); return isNaN(n) ? (+r.id || 0) : n; }
+    out.sort(function (a, b) { return (refNum(b) - refNum(a)) || ((+b.id || 0) - (+a.id || 0)); });
     return out;
   }
 
@@ -261,14 +269,45 @@
   }
   var MENU_AR = { Rice: 'كبسة ومندي', Grill: 'مشويات ومضبي', Both: 'كبسة ومندي ومشويات' };
 
-  function sigBox(id, label, name) {
+  // first party's box. The concerned person signs here with their signing code; a saved signature shows as an image.
+  var FP_LABEL = 'الطرف الأول:', FP_NAME = 'مطاعم حلب الشهباء لتقديم الوجبات';
+  function fpWho(name) { return name ? '<span class="nm">يمثلها: ' + esc(name) + '</span>' : ''; }
+  function fpPadHtml(id, name, ready) {
+    return '<b>' + FP_LABEL + '</b><span class="nm">' + FP_NAME + '</span>' + fpWho(name) +
+      '<div class="sbox"><canvas id="s1" width="800" height="200"></canvas>' +
+      '<div class="hint">وقّع هنا · Sign here</div><button type="button" class="clr" data-for="s1">مسح · Clear</button></div>' +
+      '<div class="cap">التوقيع · Signature <span class="sd" id="s1d"></span></div>' +
+      (ready ? '<input type="password" id="fppin" class="fppin" placeholder="رمز التوقيع · Signing code" autocomplete="off">' : '') +
+      '<button type="button" class="fpbtn" id="fpsave" data-ready="' + (ready ? '1' : '0') + '" data-id="' + id + '">حفظ توقيع الطرف الأول · Save first party signature</button>' +
+      '<div class="fpmsg' + (ready ? '' : ' bad') + '" id="fpmsg" aria-live="polite">' + (ready ? '' : 'اضبط اسم المفوّض ورمز التوقيع من صفحة الإدارة (بطاقة توقيع الطرف الأول) · Set the concerned person\'s name and signing code on the admin page (First party signature card)') + '</div>';
+  }
+  function fpImgHtml(src, id, locked, name) {
+    return '<b>' + FP_LABEL + '</b><span class="nm">' + FP_NAME + '</span>' + fpWho(name) +
+      '<div class="sbox done"><img class="simg" src="' + esc(src) + '" alt=""></div>' +
+      '<div class="cap">التوقيع · Signature</div>' +
+      (locked ? '' : '<button type="button" class="fpbtn alt" id="fpchg" data-id="' + id + '">تغيير التوقيع · Change signature</button>') +
+      '<div class="fpmsg" id="fpmsg" aria-live="polite"></div>';
+  }
+  function firstBox(r, saved) {
+    var locked = !!(saved && saved.signature), name = (saved && saved.first_party_name) || '', ready = !!(saved && saved.signer_ready);
+    return '<div class="s" id="fps">' +
+      (saved && saved.first_party_signature ? fpImgHtml(saved.first_party_signature, r.id, locked, name) : fpPadHtml(r.id, name, ready)) + '</div>';
+  }
+  function sigBox(id, label, name, saved) {
+    if (saved && saved.signature) {
+      var when = saved.signed_at ? new Date(saved.signed_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : '';
+      return '<div class="s"><b>' + label + '</b><span class="nm">' + name + '</span>' +
+        '<div class="sbox done"><img class="simg" src="' + esc(saved.signature) + '" alt=""></div>' +
+        '<div class="cap">وُقّع إلكترونياً · Signed electronically <span class="sd">' + esc(when) + '</span></div></div>';
+    }
     return '<div class="s"><b>' + label + '</b><span class="nm">' + name + '</span>' +
       '<div class="sbox"><canvas id="' + id + '" width="800" height="200"></canvas>' +
       '<div class="hint">وقّع هنا · Sign here</div><button type="button" class="clr" data-for="' + id + '">مسح · Clear</button></div>' +
       '<div class="cap">التوقيع · Signature <span class="sd" id="' + id + 'd"></span></div></div>';
   }
 
-  function agreementHtml(r, amt) {
+  function agreementHtml(r, amt, saved) {
+    var fpNameV = (saved && saved.first_party_name) || '', fpReady = !!(saved && saved.signer_ready);
     var dt = gDate(r.event_date), opt = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
     var g = new Intl.DateTimeFormat('ar-SA-u-ca-gregory-nu-latn', opt).format(dt);
     var h = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', opt).format(dt);
@@ -301,13 +340,16 @@
       'h2{font-size:1.2em;font-weight:800;margin:.6em 0 .15em}' +
       '.r{display:flex;gap:.5em;padding:.05em 0;border-bottom:1px dotted #999}.k{font-weight:700;min-width:8.5em}.v{flex:1}' +
       '.cl{width:100%;border-collapse:collapse}.cl td{vertical-align:top;padding:.12em 0;text-align:right}.cl .n{width:2.4em;font-weight:700;white-space:nowrap}' +
+      window.CustomerAgreement.termsCss +
       '.sig{display:flex;gap:2em;margin-top:1.1em}.sig .s{flex:1;min-width:0;display:flex;flex-direction:column}.sig b{font-weight:800}' +
       '.sig .nm{font-size:.95em;margin-bottom:.3em}' +
+      '.sbox.done{border-style:solid;border-color:#cfd8d2}.sbox .simg{display:block;width:100%;height:auto}' +
       '.sbox{position:relative;border:1.5px dashed #8a9a90;border-radius:.5em;background:#fbfcfb}.sbox canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}' +
+      '.fpbtn{display:block;margin-top:.45em;font:700 .8em "Tajawal",sans-serif;padding:.3em 1em;border:1.5px solid #1E4D39;border-radius:999px;background:#1E4D39;color:#fff;cursor:pointer}.fpbtn.alt{background:#fff;color:#1E4D39}.fpbtn:disabled{opacity:.6;cursor:wait}.fpmsg{min-height:1.2em;margin-top:.25em;font-size:.8em;color:#1E4D39}.fpmsg.bad{color:#b3321f}.fppin{display:block;width:100%;box-sizing:border-box;margin-top:.45em;padding:.3em .6em;font:inherit;font-size:.8em;border:1.5px solid #8a9a90;border-radius:6px;direction:ltr;text-align:center}' +
       '.sbox .hint{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;color:#a9b4ad;font-size:.95em;pointer-events:none}' +
       '.sbox .clr{position:absolute;top:.3em;left:.3em;font:600 .75em "Tajawal",sans-serif;padding:.1em .7em;border:1px solid #999;border-radius:999px;background:#fff;color:#333;cursor:pointer}' +
       '.sig .cap{font-size:.8em;color:#555;text-align:center;margin-top:.2em}' +
-      '@media print{body{background:#fff}.bar{display:none}.sbox{border:0;border-bottom:1.5px solid #111;border-radius:0;background:none}.sbox .hint,.sbox .clr{display:none}.page{box-shadow:none;margin:0;padding:0;width:auto;max-width:none;min-height:230mm;font-size:var(--fs,12px)}.in{break-inside:avoid;page-break-inside:avoid}}' +
+      '@media print{body{background:#fff}.bar{display:none}.sbox{border:0;border-bottom:1.5px solid #111;border-radius:0;background:none}.sbox .hint,.sbox .clr,.fpbtn,.fpmsg,.fppin{display:none}.page{box-shadow:none;margin:0;padding:0;width:auto;max-width:none;min-height:230mm;font-size:var(--fs,12px)}.in{break-inside:avoid;page-break-inside:avoid}}' +
       '</style></head><body>' +
       '<div class="bar"><div class="brand"><img class="mark" src="logo.png" alt="" onerror="this.style.display=\'none\'"><span class="name"><bdi>العقد</bdi> · <bdi>Agreement</bdi></span></div><div class="tools">' +
       '<button onclick="window.print()"><bdi>طباعة / حفظ PDF</bdi> · <bdi>Print / Save PDF</bdi></button>' +
@@ -317,7 +359,7 @@
       '<div class="top"><img src="logo.png" alt="" onerror="this.style.visibility=\'hidden\'"><h1>عقد بوفيه خارجي</h1><div class="ref">رقم الحجز: ' + ltr(r.reference) + '</div></div>' +
       '<div class="dates"><span>التاريخ: ' + esc(todayAr) + '</span><span class="en" dir="ltr">Date: ' + esc(todayEn) + '</span></div>' +
       '<h2>تم الاتفاق بين كل من:</h2>' +
-      row('الطرف الأول:', 'مطاعم حلب الشهباء لتقديم الوجبات') +
+      row('الطرف الأول:', 'مطاعم حلب الشهباء لتقديم الوجبات' + (fpNameV ? ' — يمثلها: ' + esc(fpNameV) : '')) +
       row('الطرف الثاني:', esc(r.full_name)) +
       row('رقم الجوال:', ltr(r.phone)) +
       row('رقم السجل المدني:', ltr(r.national_id)) +
@@ -333,24 +375,24 @@
       '<tr><td class="n">3.</td><td>إجمالي المبلغ المتفق عليه لإعداد البوفيه هو <b>' + money(amt.total) + '</b> ريال، دُفع منه مبلغ <b>' + money(amt.deposit) + '</b> ريال عربون، والمتبقي منه <b>' + (remain == null ? BLANK : money(remain)) + '</b> ريال.</td></tr>' +
       '<tr><td class="n">4.</td><td>يتم دفع مبلغ تأمين <b>' + money(amt.insurance) + '</b> ريال، ويُسترد بعد إقامة البوفيه في حال سلامة جميع معدات البوفيه.</td></tr>' +
       '<tr><td class="n">5.</td><td>يتم سداد كامل المبلغ قبل موعد البوفيه بخمسة أيام، وفي حال لم يتم ذلك يعتبر العقد لاغياً.</td></tr>' +
-      '<tr><td class="n">6.</td><td>العربون لا يُسترد في حالة الإلغاء قبل موعد البوفيه بأقل من 15 يومًا، وفي حال تم الإلغاء قبل 15 يومًا من موعد البوفيه يتم خصم 50% من قيمة العربون.</td></tr>' +
+      '<tr><td class="n">6.</td><td>العربون لا يُسترد في حالة الإلغاء قبل موعد البوفيه بأقل من 30 يومًا، وفي حال تم الإلغاء قبل 30 يومًا من موعد البوفيه يتم خصم 50% من قيمة العربون.</td></tr>' +
       '<tr><td class="n">7.</td><td>البوفيه خدمة ذاتية، ويتم تسليمها للطرف الثاني عند انتهاء التجهيز. وفي حال رغبة العميل في طلب عمال لخدمة البوفيه، يتحمل رسومًا إضافية.</td></tr>' +
       '<tr><td class="n">8.</td><td>يتم اختيار قائمة الأصناف من المنيو اليومي حسب تحديد الشيف.</td></tr>' +
       '<tr><td class="n">9.</td><td>يتم احتساب رسوم إضافية في حال رغبة العميل في شراء وطبخ طليان، غير رسوم البوفيه.</td></tr>' +
-      '</table>' +
-      '<div class="sig">' + sigBox('s1', 'الطرف الأول:', 'مطاعم حلب الشهباء لتقديم الوجبات') + sigBox('s2', 'الطرف الثاني:', esc(r.full_name)) + '</div>' +
+      '</table>' + window.CustomerAgreement.termsHtml() +
+      '<div class="sig">' + firstBox(r, saved) + sigBox('s2', 'الطرف الثاني:', esc(r.full_name), saved) + '</div>' +
       '</div></div>' +
       // Shrinks the text just enough (in a hidden A4-width copy) so the whole agreement prints on ONE page.
       '<script>' +
       'function fit(){var s=document.querySelector(".in"),b=document.createElement("div");' +
       'b.style.cssText="position:absolute;left:-9999px;top:0;width:174mm;visibility:hidden;line-height:1.7";' +
-      'var c=s.cloneNode(true);b.appendChild(c);var m=document.createElement("div");m.style.cssText="height:233mm;width:1px";b.appendChild(m);' +
+      'var c=s.cloneNode(true);Array.prototype.forEach.call(c.querySelectorAll(".fpbtn,.fpmsg,.fppin"),function(e){e.parentNode.removeChild(e);});b.appendChild(c);var m=document.createElement("div");m.style.cssText="height:233mm;width:1px";b.appendChild(m);' +
       'document.body.appendChild(b);var a=m.offsetHeight,f=14;' +
       'for(;f>8;f-=0.25){b.style.fontSize=f+"px";if(c.scrollHeight<=a)break;}' +
       'document.documentElement.style.setProperty("--fs",f+"px");document.body.removeChild(b);}' +
       'function goBack(){try{if(window.opener&&!window.opener.closed)window.opener.focus();}catch(e){}window.close();setTimeout(function(){location.href="admin.html";},300);}' +
       'document.getElementById("lg").addEventListener("change",function(){var i=document.querySelector(".top img");if(i)i.style.visibility=this.checked?"visible":"hidden";fit();});' +
-      'function initPad(id){var c=document.getElementById(id),x=c.getContext("2d"),on=false,l=null,hint=c.parentNode.querySelector(".hint"),sd=document.getElementById(id+"d");' +
+      'function initPad(id){var c=document.getElementById(id);if(!c)return;var x=c.getContext("2d"),on=false,l=null,hint=c.parentNode.querySelector(".hint"),sd=document.getElementById(id+"d");' +
       'x.lineWidth=3.4;x.lineCap="round";x.lineJoin="round";x.strokeStyle="#0a2a8a";x.fillStyle="#0a2a8a";' +
       'function pt(e){var r=c.getBoundingClientRect();return{x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height};}' +
       'c.addEventListener("pointerdown",function(e){on=true;l=pt(e);try{c.setPointerCapture(e.pointerId);}catch(z){}if(hint)hint.style.display="none";' +
@@ -358,7 +400,22 @@
       'c.addEventListener("pointermove",function(e){if(!on)return;var p=pt(e);x.beginPath();x.moveTo(l.x,l.y);x.lineTo(p.x,p.y);x.stroke();l=p;});' +
       'function up(){on=false;}c.addEventListener("pointerup",up);c.addEventListener("pointercancel",up);' +
       'var cb=c.parentNode.querySelector(".clr");cb.addEventListener("click",function(){x.clearRect(0,0,c.width,c.height);if(hint)hint.style.display="";if(sd)sd.textContent="";});}' +
-      'initPad("s1");initPad("s2");' +
+      'var FP_PAD=' + JSON.stringify(fpPadHtml(r.id, fpNameV, fpReady)).replace(/</g, '\\u003c') + ';' +
+      'var FP_HEAD=' + JSON.stringify(fpImgHtml('@@', r.id, false, fpNameV).split('@@')[0]).replace(/</g, '\\u003c') + ',FP_TAIL=' + JSON.stringify(fpImgHtml('@@', r.id, false, fpNameV).split('@@')[1]).replace(/</g, '\\u003c') + ';' +
+      'var FP_ERR={invalid_pin:"رمز التوقيع غير صحيح · Wrong signing code",locked_pin:"محاولات كثيرة، انتظر 15 دقيقة · Too many attempts, wait 15 minutes",not_configured:"اضبط اسم المفوّض ورمز التوقيع من صفحة الإدارة · Set the signer name and signing code on the admin page",signed_locked:"وقّع العميل العقد ولا يمكن تغييره · The customer already signed",bad_signature:"تعذر حفظ التوقيع · Could not save the signature"};' +
+      'function fpMsg(t,bad){var m=document.getElementById("fpmsg");if(m){m.textContent=t;m.className="fpmsg"+(bad?" bad":"");}}' +
+      'function bindFirst(){var sv=document.getElementById("fpsave"),ch=document.getElementById("fpchg"),pn=document.getElementById("fppin"),box=document.getElementById("fps");' +
+      'if(sv)sv.addEventListener("click",function(){if(sv.getAttribute("data-ready")!=="1"){fpMsg(FP_ERR.not_configured,true);return;}var c=document.getElementById("s1"),h=c.parentNode.querySelector(".hint");' +
+      'if(h&&h.style.display!=="none"){fpMsg("وقّع أولاً · Please sign first",true);return;}' +
+      'var pin=pn?pn.value:"";if(!pin){fpMsg("أدخل رمز التوقيع · Enter the signing code",true);return;}' +
+      'var op=window.opener,url=c.toDataURL("image/png");' +
+      'if(!op||op.closed||!op.catAdminSaveFirstParty){fpMsg("تعذر الحفظ، افتح العقد من صفحة الإدارة · Could not save, open the agreement from the admin page",true);return;}' +
+      'sv.disabled=true;op.catAdminSaveFirstParty(+sv.getAttribute("data-id"),url,pin).then(function(res){' +
+      'if(res&&res.ok){box.innerHTML=FP_HEAD+url+FP_TAIL;bindFirst();fpMsg("تم حفظ توقيع الطرف الأول · First party signature saved");fit();}' +
+      'else{sv.disabled=false;if(pn)pn.value="";fpMsg(FP_ERR[res&&res.error]||FP_ERR.bad_signature,true);}' +
+      '}).catch(function(){sv.disabled=false;fpMsg("تعذر الاتصال · No connection",true);});});' +
+      'if(ch)ch.addEventListener("click",function(){box.innerHTML=FP_PAD;initPad("s1");bindFirst();fit();});}' +
+      'initPad("s1");initPad("s2");bindFirst();' +
       'window.addEventListener("load",fit);window.addEventListener("beforeprint",fit);' +
       'if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);' +
       '<\/script>' +
@@ -385,46 +442,77 @@
   function readAmounts() { return { tot: numOrNull($('agTotal').value), dep: numOrNull($('agDeposit').value), sec: numOrNull($('agInsurance').value) }; }
   function updRemain() {
     var a = readAmounts();
-    $('agRemain').textContent = a.tot != null && a.dep != null ? fmtMoney(Math.max(0, a.tot - a.dep)) : '—';
+    $('agRemain').value = a.tot != null && a.dep != null ? fmtMoney(Math.max(0, a.tot - a.dep)) : '—';
   }
   function openAgDialog(r) {
     agR = r; $('agForm').reset();
-    $('agTotal').value = r.total_amount != null ? r.total_amount : '';
+    $('agWho').textContent = r.reference + ' · ' + r.full_name;
+    // the package price chosen on the booking form fills the Total amount until the admin saves a different figure
+    var fromPkg = r.total_amount == null && r.package_price != null;
+    $('agTotal').value = r.total_amount != null ? r.total_amount : (fromPkg ? r.package_price : '');
+    var ph = $('agPkgHint');
+    ph.textContent = r.package_price != null ? t(fromPkg ? 'agPkgFilled' : 'agPkgIs') + ' ' + fmtMoney(r.package_price) + ' ' + t('sar') : '';
+    show(ph, r.package_price != null);
     $('agDeposit').value = r.deposit_paid != null ? r.deposit_paid : '';
     $('agInsurance').value = r.security_deposit != null ? r.security_deposit : '';
     updRemain(); show($('agErr'), false);
     if (!$('agDialog').open) $('agDialog').showModal();
   }
   function agError(msg) { $('agErr').textContent = msg; show($('agErr'), true); }
-  function agBusy(on) { ['agCreateBtn', 'agSave', 'agSkip'].forEach(function (id) { $(id).disabled = on; }); }
+  function agBusy(on) { ['agSaveBtn', 'agSkip'].forEach(function (id) { $(id).disabled = on; }); }
 
-  // createDoc = true: save, then open the agreement. false: save only.
-  function agRun(createDoc) {
+  // Save the amounts (the agreement is opened separately with the Agreement button)
+  function agRun() {
     var a = readAmounts(); show($('agErr'), false);
     if (a.tot != null && a.dep != null && a.dep > a.tot) { agError(t('bad_amounts')); return; }
-    var w = null;
-    if (createDoc) {                               // must open inside the click so the browser allows it
-      w = window.open('', '_blank');               // about:blank inherits this page's address, so logo.png loads
-      if (!w) { agError(t('agBlocked')); return; }
-    }
     agBusy(true);
+    var wasNew = agR.status === 'new';
     saveAmounts(agR, a.tot, a.dep, a.sec).then(function (res) {
       if (!res.ok) {
-        if (w) w.close();
         agError(errText(res));
         if (res.error === 'invalid_code' || res.error === 'locked') lock();
         return;
       }
-      if (w) { w.document.open(); w.document.write(agreementHtml(agR, amtFromRow(agR))); w.document.close(); }
-      $('agDialog').close(); render();
-    }).catch(function () { if (w) w.close(); agError(t('noSave')); })
+      // a deposit has been paid and saved: a NEW booking becomes CONFIRMED
+      var after = Promise.resolve();
+      if (wasNew && a.dep != null && a.dep > 0) {
+        if (res.status === 'confirmed') { agR.status = 'confirmed'; }          // the database already did it
+        else after = rpc('catering_admin_set_status', { p_code: code, p_id: agR.id, p_status: 'confirmed' })
+          .then(function (r2) { if (r2.ok) agR.status = 'confirmed'; }).catch(function () {});
+      }
+      return after.then(function () {
+        $('agDialog').close(); render();
+        if (wasNew && agR.status === 'confirmed' && isWaStatus('confirmed')) showNotice(agR);   // same WhatsApp prompt as choosing Confirmed by hand
+      });
+    }).catch(function () { agError(t('noSave')); })
       .then(function () { agBusy(false); });
+  }
+
+  // Opens the saved agreement (saved amounts + the customer's signature, if they signed)
+  function showSavedAgreement(w, r) {
+    var write = function (saved) { w.document.open(); w.document.write(agreementHtml(r, amtFromRow(r), saved)); w.document.close(); };
+    w.document.open();
+    w.document.write('<!DOCTYPE html><meta charset="utf-8"><title>…</title><p style="font:18px sans-serif;padding:2rem;text-align:center">جارٍ فتح العقد… · Opening…</p>');
+    w.document.close();
+    return rpc('catering_admin_get_signature', { p_code: code, p_booking: r.id }).then(function (g) {
+      if (g && !g.ok && (g.error === 'invalid_code' || g.error === 'locked')) { w.close(); lock(); return; }
+      if (g && g.ok) {
+        if (g.signature && !r.agreement_signed_at) { r.agreement_signed_at = g.signed_at; render(); }   // customer signed after the list was loaded
+        write(g);   // carries the first party's signature too, even if the customer has not signed yet
+      } else { write(null); }
+    }).catch(function () { write(null); });
+  }
+  function openAgreement(r) {
+    if (r.total_amount == null) { openAgDialog(r); return; }      // amounts must be saved first
+    var w = window.open('', '_blank');                           // opened inside the tap so browsers allow it
+    if (!w) { $('appErr').textContent = t('agBlocked'); show($('appErr'), true); return; }
+    show($('appErr'), false);
+    showSavedAgreement(w, r);
   }
   $('agTotal').addEventListener('input', updRemain);
   $('agDeposit').addEventListener('input', updRemain);
   $('agSkip').addEventListener('click', function () { $('agDialog').close(); });
-  $('agSave').addEventListener('click', function () { agRun(false); });
-  $('agForm').addEventListener('submit', function (e) { e.preventDefault(); agRun(true); });
+  $('agForm').addEventListener('submit', function (e) { e.preventDefault(); agRun(); });
 
   // ---------- Collect the remaining amount ----------
   function canCollect(r) { return r.status !== 'cancelled' && r.balance_due != null && +r.balance_due > 0; }
@@ -514,8 +602,9 @@
     var head = el('div', 'b-head');
     var ref = el('span', 'ref', r.reference); ref.dir = 'ltr';
     head.appendChild(ref);
-    var wa, ag, pay, actions, sel = el('select'); sel.setAttribute('aria-label', t('statusOf') + r.reference);
-    STATUSES.forEach(function (s) {
+    var wa, ag, pay, pm, actions, sel = el('select'); sel.setAttribute('aria-label', t('statusOf') + r.reference);
+    // "Completed" is no longer offered; a booking that already has that status keeps showing it so nothing is misreported
+    STATUSES.filter(function (s) { return s !== 'completed' || r.status === 'completed'; }).forEach(function (s) {
       var o = el('option', null, t('st_' + s)); o.value = s; if (s === r.status) o.selected = true; sel.appendChild(o);
     });
     sel.addEventListener('change', function () {
@@ -528,8 +617,9 @@
         }
         r.status = next; b.dataset.status = next; show($('appErr'), false); stats();
         wa.hidden = !isWaStatus(next); wa.href = waLink(r); ag.hidden = !isAgStatus(next);
-        pay.hidden = !canCollect(r); actions.hidden = wa.hidden && ag.hidden && pay.hidden;
-        if (next === 'completed') openAgDialog(r);
+        pm.hidden = next === 'cancelled';
+        pay.hidden = !canCollect(r); actions.hidden = wa.hidden && ag.hidden && pay.hidden && pm.hidden;
+        if (next === 'completed' && r.total_amount == null) openAgDialog(r);
         if (isWaStatus(next)) showNotice(r); else show($('notice'), false);
       }).catch(function () { sel.value = prev; $('appErr').textContent = t('noSave'); show($('appErr'), true); })
         .then(function () { sel.disabled = false; });
@@ -582,16 +672,21 @@
 
     ag = el('button', 'wa ag', t('agBtn')); ag.type = 'button';
     ag.hidden = !isAgStatus(r.status);
-    ag.addEventListener('click', function () { openAgDialog(r); });
+    ag.addEventListener('click', function () { openAgreement(r); });
     actions.appendChild(ag);
     pay = el('button', 'wa pay', t('payBtn')); pay.type = 'button';
     pay.hidden = !canCollect(r);
     pay.addEventListener('click', function () { openPayDialog(r); });
     actions.appendChild(pay);
-    actions.hidden = wa.hidden && ag.hidden && pay.hidden;
+    pm = el('button', 'wa pm', t('pmBtn')); pm.type = 'button';
+    pm.hidden = r.status === 'cancelled';
+    pm.addEventListener('click', function () { openAgDialog(r); });
+    actions.appendChild(pm);
+    actions.hidden = wa.hidden && ag.hidden && pay.hidden && pm.hidden;
     b.appendChild(actions);
 
     if (r.notes) b.appendChild(el('div', 'note', r.notes));
+    if (r.agreement_signed_at) b.appendChild(el('div', 'signed', '\u2714 ' + t('agSigned') + ' · ' + shortDate(String(r.agreement_signed_at).slice(0, 10))));
     b.appendChild(el('div', 'meta', t('received') +
       new Date(r.created_at).toLocaleString(locale('gregory'), { dateStyle: 'medium', timeStyle: 'short' }) +
       t('siteLang') + (r.language === 'ar' ? t('langAr') : t('langEn'))));
@@ -704,6 +799,70 @@
     }).catch(function () { m.textContent = t('noConn'); });
   });
 
+  // called by the agreement window: the concerned person signs ONE agreement (needs the signing code)
+  window.catAdminSaveFirstParty = function (bookingId, dataUrl, pin) {
+    if (!code) return Promise.resolve({ ok: false, error: 'invalid_code' });
+    return rpc('catering_admin_set_booking_first_party', { p_code: code, p_booking: bookingId, p_signature: dataUrl, p_pin: pin || '' });
+  };
+
+  // ---------- first party card: who signs, and the default signature ----------
+  var fpCv = $('fpCanvas'), fpCtx = fpCv.getContext('2d'), fpDrawing = false, fpDirty = false, fpLoaded = false, fpPinSet = false;
+  function fpMsg(text, good) { var m = $('fpMsg'); m.className = 'err' + (good ? ' ok' : ''); m.textContent = text; show(m, !!text); }
+  function fpWhoMsg(text, good) { var m = $('fpWhoMsg'); m.className = 'err' + (good ? ' ok' : ''); m.textContent = text; show(m, !!text); }
+  function fpPos(e) { var r = fpCv.getBoundingClientRect(); return { x: (e.clientX - r.left) * fpCv.width / r.width, y: (e.clientY - r.top) * fpCv.height / r.height }; }
+  function fpReset() { fpCtx.clearRect(0, 0, fpCv.width, fpCv.height); fpDirty = false; $('fpBox').querySelector('.fppad').classList.remove('drawn'); }
+  function fpShow(sig) { var has = !!sig; if (has) $('fpImg').src = sig; show($('fpCur'), has); show($('fpRemove'), has); }
+  function fpState(res) {   // reply of catering_admin_get_first_party
+    fpPinSet = !!res.pin_set; $('fpName').value = res.name || '';
+    show($('fpOldRow'), fpPinSet); fpShow(res.signature);
+  }
+  function fpAuthFail(res) { if (res.error === 'invalid_code' || res.error === 'locked') lock(); }
+  fpCtx.lineWidth = 4; fpCtx.lineCap = 'round'; fpCtx.lineJoin = 'round'; fpCtx.strokeStyle = '#111';
+  fpCv.addEventListener('pointerdown', function (e) {
+    e.preventDefault(); fpDrawing = true; fpCv.setPointerCapture(e.pointerId);
+    var p = fpPos(e); fpCtx.beginPath(); fpCtx.moveTo(p.x, p.y); fpCtx.lineTo(p.x + .1, p.y + .1); fpCtx.stroke();
+    fpDirty = true; fpCv.parentNode.classList.add('drawn'); fpMsg('');
+  });
+  fpCv.addEventListener('pointermove', function (e) { if (!fpDrawing) return; var p = fpPos(e); fpCtx.lineTo(p.x, p.y); fpCtx.stroke(); });
+  ['pointerup', 'pointercancel'].forEach(function (n) { fpCv.addEventListener(n, function () { fpDrawing = false; }); });
+  $('fpClear').addEventListener('click', function () { fpReset(); fpMsg(''); });
+  $('fpBox').addEventListener('toggle', function () {
+    if (!$('fpBox').open || fpLoaded || !code) return;
+    rpc('catering_admin_get_first_party', { p_code: code }).then(function (res) {
+      if (!res.ok) { fpAuthFail(res); return; }
+      fpLoaded = true; fpState(res);
+    }).catch(function () {});
+  });
+  // who signs for the first party: the concerned person's name and their signing code
+  $('fpSaveWho').addEventListener('click', function () {
+    var name = $('fpName').value.trim(), np = $('fpPinNew').value, op = $('fpPinOld').value;
+    if (!name) { fpWhoMsg(t('fpNeedName')); return; }
+    if (!fpPinSet && !np) { fpWhoMsg(t('fpNeedPinNew')); return; }
+    if (fpPinSet && !op) { fpWhoMsg(t('fpNeedPinOld')); return; }
+    $('fpSaveWho').disabled = true;
+    rpc('catering_admin_set_signer', { p_code: code, p_name: name, p_new_pin: np, p_old_pin: op }).then(function (res) {
+      if (!res.ok) { fpWhoMsg(errText(res)); fpAuthFail(res); return; }
+      $('fpPinNew').value = ''; $('fpPinOld').value = ''; fpPinSet = true; show($('fpOldRow'), true); fpWhoMsg(t('fpWhoSaved'), true);
+    }).catch(function () { fpWhoMsg(t('noConn')); }).then(function () { $('fpSaveWho').disabled = false; });
+  });
+  // the default first-party signature (also needs the signing code)
+  function fpSend(sig, doneText) {
+    var pin = $('fpPin').value;
+    if (!pin) { fpMsg(t('fpNeedPin')); return Promise.resolve(); }
+    ['fpSave', 'fpClear', 'fpRemove'].forEach(function (id) { $(id).disabled = true; });
+    return rpc('catering_admin_set_first_party', { p_code: code, p_signature: sig, p_pin: pin }).then(function (res) {
+      if (!res.ok) { fpMsg(errText(res)); fpAuthFail(res); $('fpPin').value = ''; return; }
+      fpLoaded = true; fpShow(sig); fpReset(); $('fpPin').value = ''; fpMsg(doneText, true);
+    }).catch(function () { fpMsg(t('noConn')); }).then(function () {
+      ['fpSave', 'fpClear', 'fpRemove'].forEach(function (id) { $(id).disabled = false; });
+    });
+  }
+  $('fpSave').addEventListener('click', function () {
+    if (!fpDirty) { fpMsg(t('fpDraw')); return; }
+    fpSend(fpCv.toDataURL('image/png'), t('fpSaved'));
+  });
+  $('fpRemove').addEventListener('click', function () { fpSend('', t('fpRemoved')); });
+
   // ---------- start ----------
   var savedLang = null;
   try { savedLang = localStorage.getItem('adminLang'); } catch (e) {}
@@ -712,4 +871,3 @@
   try { saved = sessionStorage.getItem('adm'); } catch (e) {}
   if (saved) load(saved, false).then(function () { if (!code) $('code').focus(); }); else $('code').focus();
 })();
-

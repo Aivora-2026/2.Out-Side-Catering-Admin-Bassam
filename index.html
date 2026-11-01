@@ -65,7 +65,6 @@
         <option value="" data-i18n="allStatuses">All statuses</option>
         <option value="new" data-i18n="st_new">New</option>
         <option value="confirmed" data-i18n="st_confirmed">Confirmed</option>
-        <option value="completed" data-i18n="st_completed">Completed</option>
         <option value="cancelled" data-i18n="st_cancelled">Cancelled</option>
       </select>
       <select id="fWhen" aria-label="When">
@@ -96,6 +95,41 @@
       </table>
     </div>
 
+    <details class="card change" id="fpBox">
+      <summary data-i18n="fpTitle">First party signature</summary>
+      <p class="sub" data-i18n="fpSub">One concerned person signs for the first party. Set their name and signing code below. Nobody else can sign for the first party, even another admin. You can also save a default signature to show on agreements.</p>
+
+      <h3 class="fph" data-i18n="fpWhoTitle">Who signs for the first party</h3>
+      <p class="sub" data-i18n="fpWhoSub">Only the concerned person, who knows the signing code, can sign. Their name is printed on the agreement.</p>
+      <label><span data-i18n="fpName">Name of the concerned person</span>
+        <input id="fpName" maxlength="120" autocomplete="off">
+      </label>
+      <label id="fpOldRow" hidden><span data-i18n="fpPinOld">Current signing code</span>
+        <input id="fpPinOld" type="password" autocomplete="off">
+      </label>
+      <label><span data-i18n="fpPinNew">New signing code (at least 6 characters)</span>
+        <input id="fpPinNew" type="password" autocomplete="new-password">
+      </label>
+      <p class="err" id="fpWhoMsg" role="status" hidden></p>
+      <button class="go" id="fpSaveWho" type="button" data-i18n="fpSaveWho">Save signer details</button>
+
+      <h3 class="fph" data-i18n="fpDefTitle">Default signature</h3>
+      <div class="fpcur" id="fpCur" hidden>
+        <span data-i18n="fpCurrent">Saved signature</span>
+        <img id="fpImg" alt="">
+      </div>
+      <div class="fppad"><canvas id="fpCanvas" width="800" height="240" aria-label="Signature pad"></canvas><span class="fphint" data-i18n="fpHint">Sign here</span></div>
+      <label><span data-i18n="fpPin">Signing code</span>
+        <input id="fpPin" type="password" autocomplete="off">
+      </label>
+      <p class="err" id="fpMsg" role="status" hidden></p>
+      <div class="actions">
+        <button class="go" id="fpSave" type="button" data-i18n="fpSave">Save signature</button>
+        <button class="ghost" id="fpClear" type="button" data-i18n="fpClear">Clear</button>
+        <button class="ghost" id="fpRemove" type="button" data-i18n="fpRemove" hidden>Remove saved signature</button>
+      </div>
+    </details>
+
     <details class="card change">
       <summary data-i18n="changeTitle">Change security code</summary>
       <form id="changeForm" autocomplete="off">
@@ -114,16 +148,17 @@
 
 <dialog id="agDialog">
   <form id="agForm" autocomplete="off">
-    <h2 data-i18n="agTitle">Amounts and agreement</h2>
-    <p class="sub" data-i18n="agSub">Enter the amounts. They are saved for the Accounts team. Leave a field empty to write it by hand on the contract.</p>
+    <h2 data-i18n="agTitle">Payment details</h2>
+    <p class="sub" id="agWho"></p>
+    <p class="sub" data-i18n="agSub">Enter the agreed amounts. They are saved for the Accounts team and used in the agreement.</p>
     <label><span data-i18n="agTotal">Total amount (SAR)</span><input id="agTotal" type="number" min="0" step="any" inputmode="decimal" dir="ltr"></label>
+    <p class="sub" id="agPkgHint" hidden></p>
     <label><span data-i18n="agDeposit">Deposit paid (SAR)</span><input id="agDeposit" type="number" min="0" step="any" inputmode="decimal" dir="ltr"></label>
     <label><span data-i18n="agInsurance">Security deposit (SAR)</span><input id="agInsurance" type="number" min="0" step="any" inputmode="decimal" dir="ltr"></label>
-    <p class="remain"><span data-i18n="agRemaining">Remaining</span>: <b id="agRemain" dir="ltr">—</b></p>
+    <label><span data-i18n="agRemaining">Remaining (SAR)</span><input id="agRemain" class="calc" value="—" readonly tabindex="-1" dir="ltr"></label>
     <p class="err" id="agErr" role="alert" hidden></p>
     <div class="dlg-actions">
-      <button class="go" id="agCreateBtn" type="submit" data-i18n="agCreate">Create agreement</button>
-      <button class="ghost" id="agSave" type="button" data-i18n="agSave">Save only</button>
+      <button class="go" id="agSaveBtn" type="submit" data-i18n="agSaveBtn">Save</button>
       <button class="ghost" id="agSkip" type="button" data-i18n="agSkip">Close</button>
     </div>
   </form>
@@ -164,11 +199,11 @@
 </dialog>
 
 <script>
-  const SUPABASE_URL = "https://zxrlbenaxmjsfgexpkup.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_LsIi7VlsX2mRc6biHqgnZg_2aXDJOsL";
+  const SUPABASE_URL = "https://fnhrhwetirpibloszobv.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_FTES6iQh4D-y6JtdD3LmDA_4hTA56A4";
   window.SUPABASE_CONFIG = { url: SUPABASE_URL, key: SUPABASE_ANON_KEY };
 </script>
+<script src="agreement.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
-
