@@ -123,6 +123,16 @@
       <div class="list" id="rmList"></div>
     </div>
 
+    <details class="card change" id="chefBox">
+      <summary data-i18n="chefTitle">Chef WhatsApp numbers</summary>
+      <p class="sub" data-i18n="chefSub">Confirmed orders can be sent to the chef on WhatsApp. Add one number per line, with the name first if you like, for example: Ahmed, 0500000000. The numbers are saved on this device only.</p>
+      <label><span data-i18n="chefListL">Chef number(s), one per line</span>
+        <textarea id="chefList" rows="3" dir="ltr" autocomplete="off" spellcheck="false" data-i18n-ph="chefPh" placeholder="Ahmed, 0500000000"></textarea>
+      </label>
+      <p class="err" id="chefMsg" role="status" hidden></p>
+      <button class="go" id="chefSave" type="button" data-i18n="chefSaveBtn">Save numbers</button>
+    </details>
+
     <details class="card change" id="fpBox">
       <summary data-i18n="fpTitle">First party signature</summary>
       <p class="sub" data-i18n="fpSub">One concerned person signs for the first party. Set their name and signing code below. Nobody else can sign for the first party, even another admin. You can also save a default signature to show on agreements.</p>
