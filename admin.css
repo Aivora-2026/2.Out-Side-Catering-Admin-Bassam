@@ -27,7 +27,7 @@ main.wrap{padding-top:3.5rem;padding-bottom:3rem}
 .sub{color:var(--muted);margin:0 0 1.2rem}
 label{display:block;font-weight:600;font-size:.95rem;margin-bottom:.8rem}
 input,select{display:block;width:100%;margin-top:.3rem;padding:.7rem .8rem;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px}
-input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .go{width:100%;padding:.9rem;font:700 1.05rem "Bricolage Grotesque",sans-serif;background:var(--leaf);color:var(--leaf-ink);border:0;border-radius:10px;cursor:pointer}
 .go:hover{filter:brightness(1.12)}
 .go:disabled{opacity:.6;cursor:wait}
@@ -183,3 +183,11 @@ html[lang="ar"] .rmbtn{font-family:"Tajawal",sans-serif}
 .b.rm-recent{opacity:.7}
 .rm-last.recent{color:var(--leaf)}
 @media (max-width:760px){#rmStats{grid-template-columns:1fr}.rmbar label{min-width:0;flex:1 1 100%}.rmbar .go{width:100%}}
+
+/* chef WhatsApp numbers + send-to-chef buttons */
+textarea{display:block;width:100%;min-height:5rem;margin-top:.3rem;padding:.7rem .8rem;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;resize:vertical}
+#chefBox{max-width:34rem}
+#chefBox .sub{margin-top:.8rem}
+.chefs{margin-top:-.2rem}
+.chefbtn{border:0;cursor:pointer;font:700 1rem "Source Sans 3",sans-serif}
+html[lang="ar"] .chefbtn{font-family:"Tajawal",sans-serif}

@@ -46,6 +46,10 @@
     type_Wedding: 'Wedding', type_Birthday: 'Birthday party', type_Family: 'Family gathering',
     type_Iftar: 'Ramadan iftar', type_Corporate: 'Company event', type_Other: 'Other',
     menu_Rice: 'Kabsa and mandi', menu_Grill: 'Grills and madhbi', menu_Both: 'Kabsa, mandi and grills',
+    chefBtn: 'Send to chef', chefBtnFor: 'Send to chef ', chefSentL: 'Order details sent to chef', chefNone: 'Add the chef WhatsApp number first (card "Chef WhatsApp numbers" at the bottom of the page).',
+    chefSaved: 'Saved. The Send to chef button now uses these numbers.', chefBadLine: 'This number does not look right: ', chefCleared: 'Chef numbers removed.',
+    cmHead: 'New confirmed order', cmRef: 'Booking no.', cmDate: 'Date', cmTime: 'Serving time', cmPlace: 'Location', cmMap: 'Map', cmGuests: 'Guests',
+    cmBuffet: 'Buffet', cmPackage: 'Package', cmItems: 'Menu items', cmNotes: 'Notes', cmCustomer: 'Customer', cmFoot: 'Please confirm you received this.',
     csvHead: ['Booking number', 'Status', 'Event date', 'Hijri date', 'Time', 'Customer', 'Phone', 'Saudi ID', 'City',
       'District', 'Address', 'Postal code', 'Event type', 'Guests', 'Menu', 'Notes', 'Received', 'Total (SAR)', 'Deposit (SAR)', 'Remaining (SAR)', 'Security deposit (SAR)', 'Collected (SAR)', 'Balance due (SAR)']
   };
@@ -109,6 +113,12 @@
     type_Wedding: 'زواج', type_Birthday: 'عيد ميلاد', type_Family: 'لقاء عائلي',
     type_Iftar: 'إفطار رمضان', type_Corporate: 'فعالية شركة', type_Other: 'أخرى',
     menu_Rice: 'كبسة ومندي', menu_Grill: 'مشويات ومضبي', menu_Both: 'كبسة ومندي ومشويات',
+    chefBtn: 'إرسال للشيف', chefBtnFor: 'إرسال إلى الشيف ', chefSentL: 'تم إرسال تفاصيل الطلب للشيف', chefNone: 'أضف رقم واتساب الشيف أولاً (بطاقة «أرقام واتساب الشيف» أسفل الصفحة).',
+    chefSaved: 'تم الحفظ. سيستخدم زر الإرسال للشيف هذه الأرقام.', chefBadLine: 'هذا الرقم غير صحيح: ', chefCleared: 'تم حذف أرقام الشيف.',
+    cmHead: 'طلب جديد مؤكد', cmRef: 'رقم الحجز', cmDate: 'التاريخ', cmTime: 'وقت التقديم', cmPlace: 'الموقع', cmMap: 'الخريطة', cmGuests: 'عدد الأشخاص',
+    cmBuffet: 'نوع البوفيه', cmPackage: 'الباقة', cmItems: 'الأصناف', cmNotes: 'ملاحظات', cmCustomer: 'العميل', cmFoot: 'نرجو تأكيد الاستلام.',
+    chefTitle: 'أرقام واتساب الشيف', chefSub: 'تفاصيل الطلب المؤكد تُرسل إلى الشيف عبر واتساب. أضف رقماً في كل سطر، ويمكنك كتابة الاسم قبله مفصولاً بفاصلة، مثال: أحمد, 0500000000. تُحفظ الأرقام على هذا الجهاز فقط.',
+    chefListL: 'رقم أو أرقام الشيف (رقم في كل سطر)', chefPh: 'أحمد, 0500000000', chefSaveBtn: 'حفظ الأرقام',
     csvHead: ['رقم الحجز', 'الحالة', 'تاريخ المناسبة', 'التاريخ الهجري', 'الوقت', 'العميل', 'الجوال', 'الهوية', 'المدينة',
       'الحي', 'العنوان', 'الرمز البريدي', 'نوع المناسبة', 'الضيوف', 'القائمة', 'الملاحظات', 'تاريخ الاستلام', 'الإجمالي (ريال)', 'العربون (ريال)', 'المتبقي (ريال)', 'التأمين (ريال)', 'المحصّل (ريال)', 'المتبقي للتحصيل (ريال)']
   };
@@ -641,7 +651,7 @@
     var head = el('div', 'b-head');
     var ref = el('span', 'ref', r.reference); ref.dir = 'ltr';
     head.appendChild(ref);
-    var wa, ag, pay, pm, actions, sel = el('select'); sel.setAttribute('aria-label', t('statusOf') + r.reference);
+    var wa, ag, pay, pm, actions, chefs, sel = el('select'); sel.setAttribute('aria-label', t('statusOf') + r.reference);
     // "Completed" is no longer offered; a booking that already has that status keeps showing it so nothing is misreported
     STATUSES.filter(function (s) { return s !== 'completed' || r.status === 'completed'; }).forEach(function (s) {
       var o = el('option', null, t('st_' + s)); o.value = s; if (s === r.status) o.selected = true; sel.appendChild(o);
@@ -658,6 +668,7 @@
         wa.hidden = !isWaStatus(next); wa.href = waLink(r); ag.hidden = !isAgStatus(next);
         pm.hidden = next === 'cancelled';
         pay.hidden = !canCollect(r); actions.hidden = wa.hidden && ag.hidden && pay.hidden && pm.hidden;
+        chefs.hidden = next !== 'confirmed';
         if (next === 'completed' && r.total_amount == null) openAgDialog(r);
         if (isWaStatus(next)) showNotice(r); else show($('notice'), false);
       }).catch(function () { sel.value = prev; $('appErr').textContent = t('noSave'); show($('appErr'), true); })
@@ -723,6 +734,8 @@
     actions.appendChild(pm);
     actions.hidden = wa.hidden && ag.hidden && pay.hidden && pm.hidden;
     b.appendChild(actions);
+    chefs = el('div', 'actions chefs'); chefButtons(r, chefs); chefs.hidden = r.status !== 'confirmed';
+    b.appendChild(chefs);
 
     if (r.notes) b.appendChild(el('div', 'note', r.notes));
     if (r.agreement_signed_at) b.appendChild(el('div', 'signed', '\u2714 ' + t('agSigned') + ' · ' + shortDate(String(r.agreement_signed_at).slice(0, 10))));
@@ -730,6 +743,80 @@
       new Date(r.created_at).toLocaleString(locale('gregory'), { dateStyle: 'medium', timeStyle: 'short' }) +
       t('siteLang') + (r.language === 'ar' ? t('langAr') : t('langEn'))));
     return b;
+  }
+
+  // ---------- Send confirmed order details to the chefs (WhatsApp) ----------
+  function chefsLoad() {
+    var txt = ''; try { txt = localStorage.getItem('chefNumbers') || ''; } catch (e) {}
+    return chefsParse(txt).list;
+  }
+  function chefIntl(raw) {
+    var d = String(raw).replace(/\D/g, '');
+    if (String(raw).trim().charAt(0) === '+') return d;           // already international
+    if (d.indexOf('00') === 0 && d.indexOf('00966') !== 0) return d.slice(2);
+    return toIntl(raw);                                            // Saudi numbers: 05xxxxxxxx, 5xxxxxxxx, 966..., 00966...
+  }
+  function chefsParse(txt) {
+    var list = [], bad = '';
+    String(txt || '').split(/\r?\n/).forEach(function (line) {
+      line = line.trim(); if (!line) return;
+      var i = line.lastIndexOf(','), name = '', num = line;
+      if (i > -1) { name = line.slice(0, i).trim(); num = line.slice(i + 1).trim(); }
+      else { var m = line.match(/^(.*?)(\+?[0-9][0-9\s\-]{7,})$/); if (m) { name = m[1].trim(); num = m[2].trim(); } }
+      var intl = chefIntl(num);
+      if (intl.length < 10 || intl.length > 15) { if (!bad) bad = line; return; }
+      list.push({ name: name, num: intl });
+    });
+    return { list: list, bad: bad };
+  }
+  function chefSentGet() { try { return JSON.parse(localStorage.getItem('chefSent') || '{}') || {}; } catch (e) { return {}; } }
+  function chefSentSet(id) { var m = chefSentGet(); m[id] = new Date().toISOString(); try { localStorage.setItem('chefSent', JSON.stringify(m)); } catch (e) {} }
+  function chefItems(r) {
+    var it = r.menu_items; if (typeof it === 'string') { try { it = JSON.parse(it); } catch (e) { it = null; } }
+    if (!Array.isArray(it)) return '';
+    return it.map(function (x) { return typeof x === 'string' ? x : (lang === 'ar' ? (x.ar || x.en) : (x.en || x.ar)); }).filter(Boolean).join(lang === 'ar' ? '، ' : ', ');
+  }
+  function chefMessage(r) {
+    var ar = lang === 'ar', dt = gDate(r.event_date), loc = ar ? 'ar-SA' : 'en-GB';
+    var opt = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    var g = new Intl.DateTimeFormat(loc + '-u-ca-gregory-nu-latn', opt).format(dt);
+    var h = new Intl.DateTimeFormat(loc + '-u-ca-islamic-umalqura-nu-latn', opt).format(dt);
+    var tm = new Date('2000-01-01T' + r.event_time).toLocaleTimeString(loc + '-u-nu-latn', { hour: 'numeric', minute: '2-digit' });
+    var place = [r.address, r.district, r.city].filter(Boolean).join(ar ? '، ' : ', ');
+    var map = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent([r.address, r.district, r.city, 'Saudi Arabia'].join(' '));
+    var buffet = (ar ? (r.buffet_name_ar || r.buffet_name) : (r.buffet_name || r.buffet_name_ar)) || r.menu || r.event_type || '';
+    var pkg = (ar ? (r.package_label_ar || r.package_label) : (r.package_label || r.package_label_ar)) || '';
+    var items = chefItems(r);
+    var L = ['*' + t('cmHead') + '*', t('cmRef') + ': ' + r.reference, '',
+      t('cmDate') + ': ' + g + ' (' + h + ')', t('cmTime') + ': ' + tm,
+      t('cmPlace') + ': ' + place, t('cmMap') + ': ' + map,
+      t('cmGuests') + ': ' + r.guests];
+    if (buffet) L.push(t('cmBuffet') + ': ' + buffet);
+    if (pkg) L.push(t('cmPackage') + ': ' + pkg);
+    if (items) L.push(t('cmItems') + ': ' + items);
+    if (r.notes) L.push('', t('cmNotes') + ': ' + r.notes);
+    L.push('', t('cmCustomer') + ': ' + r.full_name, '', t('cmFoot'));
+    return L.join('\n');
+  }
+  function chefLink(r, chef) { return 'https://wa.me/' + chef.num + '?text=' + encodeURIComponent(chefMessage(r)); }
+  function chefButtons(r, box) {          // one green button per saved chef number; hidden unless the booking is confirmed
+    while (box.firstChild) box.removeChild(box.firstChild);
+    var chefs = chefsLoad(), sent = chefSentGet()[r.id];
+    function fire(chef) {
+      if (!chef) { $('appErr').textContent = t('chefNone'); show($('appErr'), true); return; }
+      var w = window.open(chefLink(r, chef), '_blank');        // opened inside the click so browsers allow it
+      if (!w) { $('appErr').textContent = t('agBlocked'); show($('appErr'), true); return; }
+      show($('appErr'), false); chefSentSet(r.id); chefButtons(r, box);
+    }
+    if (!chefs.length) {
+      var b0 = el('button', 'wa chefbtn', t('chefBtn')); b0.type = 'button'; b0.addEventListener('click', function () { fire(null); }); box.appendChild(b0);
+    } else {
+      chefs.forEach(function (c) {
+        var b1 = el('button', 'wa chefbtn', chefs.length > 1 && c.name ? t('chefBtnFor') + c.name : t('chefBtn')); b1.type = 'button';
+        b1.addEventListener('click', function () { fire(c); }); box.appendChild(b1);
+      });
+    }
+    if (sent) box.appendChild(el('div', 'signed', '\u2714 ' + t('chefSentL') + ' · ' + shortDate(String(sent).slice(0, 10))));
   }
 
   // ---------- Balance reminders ----------
@@ -975,6 +1062,17 @@
     fpSend(fpCv.toDataURL('image/png'), t('fpSaved'));
   });
   $('fpRemove').addEventListener('click', function () { fpSend('', t('fpRemoved')); });
+
+  // ---------- chef numbers card ----------
+  function chefMsg(text, ok) { var m = $('chefMsg'); m.textContent = text || ''; m.className = 'err' + (ok ? ' ok' : ''); show(m, !!text); }
+  (function () { var v = ''; try { v = localStorage.getItem('chefNumbers') || ''; } catch (e) {} $('chefList').value = v; })();
+  $('chefSave').addEventListener('click', function () {
+    var res = chefsParse($('chefList').value);
+    if (res.bad) { chefMsg(t('chefBadLine') + res.bad); return; }
+    try { localStorage.setItem('chefNumbers', $('chefList').value.trim()); } catch (e) {}
+    chefMsg(res.list.length ? t('chefSaved') : t('chefCleared'), true);
+    if (appVisible()) render();
+  });
 
   // ---------- start ----------
   var savedLang = null;
