@@ -347,11 +347,11 @@
     var row = function (k, v) { return '<div class="r"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; };
     var ltr = function (v) { return '<bdi dir="ltr">' + esc(v) + '</bdi>'; };
 
-    return '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>عقد بوفيه خارجي – ' + esc(r.reference) + '</title>' +
+    return '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="format-detection" content="telephone=no, date=no, address=no, email=no"><title>عقد بوفيه خارجي – ' + esc(r.reference) + '</title>' +
       '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">' +
       '<style>' +
       '@page{size:A4;margin:38mm 18mm 22mm}' +
-      '*{box-sizing:border-box}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+      '*{box-sizing:border-box}html{-webkit-print-color-adjust:exact;print-color-adjust:exact;-webkit-text-size-adjust:100%}' +
       'body{margin:0;background:#e9ede9;color:#111;font-family:"Tajawal","Segoe UI",Tahoma,sans-serif}' +
       '.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 12px;min-height:66px;padding:.55rem 1rem;background:#1E4D39;border-bottom:1px solid rgba(255,255,255,.15)}' +
       '.bar .brand{display:flex;align-items:center;gap:.8rem}.bar .mark{height:52px;width:auto;background:#fff;border-radius:10px;padding:4px 8px}' +
@@ -375,6 +375,19 @@
       '.sbox .hint{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;color:#a9b4ad;font-size:.95em;pointer-events:none}' +
       '.sbox .clr{position:absolute;top:.3em;left:.3em;font:600 .75em "Tajawal",sans-serif;padding:.1em .7em;border:1px solid #999;border-radius:999px;background:#fff;color:#333;cursor:pointer}' +
       '.sig .cap{font-size:.8em;color:#555;text-align:center;margin-top:.2em}' +
+      '@media screen and (max-width:700px){' +
+      '.bar{padding-left:max(.8rem,env(safe-area-inset-left,0px));padding-right:max(.8rem,env(safe-area-inset-right,0px))}' +
+      '.bar .tools{width:100%}.bar button{min-height:44px;touch-action:manipulation}.bar label{min-height:44px;display:inline-flex;align-items:center}' +
+      '.page{width:100%;min-height:0;margin:0;padding:14px 12px 22px;display:block;box-shadow:none;font-size:15px}' +
+      '.in{overflow-wrap:anywhere}' +
+      '.top{grid-template-columns:auto 1fr}.top h1{font-size:1.45em}.top .ref{grid-column:1/-1;justify-self:center;text-align:center}' +
+      '.dates{flex-direction:column;align-items:flex-start;gap:0}.dates .en{text-align:right}' +
+      '.r{flex-direction:column;gap:0;padding:.25em 0}.k{min-width:0}' +
+      '.cl .n{width:2em}' +
+      '.sig{display:block;margin-top:1.4em}.sig .s{margin-bottom:1.6em}' +
+      '.fppin{font-size:16px;padding:.5em .6em}.fpbtn{min-height:44px;font-size:.95em;width:100%;touch-action:manipulation}.fpmsg{font-size:.9em}' +
+      '.sbox .clr{min-height:32px;padding:.2em .9em}' +
+      '}' +
       '@media print{body{background:#fff}.bar{display:none}.sbox{border:0;border-bottom:1.5px solid #111;border-radius:0;background:none}.sbox .hint,.sbox .clr,.fpbtn,.fpmsg,.fppin{display:none}.page{box-shadow:none;margin:0;padding:0;width:auto;max-width:none;min-height:230mm;font-size:var(--fs,12px)}.in{break-inside:avoid;page-break-inside:avoid}}' +
       '</style></head><body>' +
       '<div class="bar"><div class="brand"><img class="mark" src="logo.png" alt="" onerror="this.style.display=\'none\'"><span class="name"><bdi>العقد</bdi> · <bdi>Agreement</bdi></span></div><div class="tools">' +
