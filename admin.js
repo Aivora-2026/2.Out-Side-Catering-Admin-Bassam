@@ -8,6 +8,9 @@
   var EN = {
     title: document.title, langBtn: 'العربية', ariaLang: 'Switch language',
     invalid_code: 'Wrong security code.',
+    tabRem: 'Balance reminders', rmCustomerL: 'Customer', rmPhoneL: 'Phone', rmBalL: 'Balance', rmLastL: 'Last sent', rmNever: 'Never reminded',
+    rmSend: 'Send reminder', rmQueueOf: 'Reminder {i} of {n}', rmDone: 'All reminders done.', rmNone: 'No customer has a balance due.',
+    rmNothing: 'Nobody needs a reminder right now.', rmSaveFail: 'WhatsApp opened, but the reminder could not be saved in the history (run supabase_update_reminders.sql in Supabase).',
     fpDraw: 'Please draw the signature first.', fpSaved: 'Signature saved. Customers will see it on their agreement.', fpRemoved: 'Saved signature removed.', bad_signature: 'The signature could not be saved. Please try again.',
     invalid_pin: 'Wrong signing code.', locked_pin: 'Too many wrong signing codes. Please wait 15 minutes.', not_configured: 'First set the concerned person and signing code in the First party signature card.',
     pin_required: 'Please choose a signing code.', pin_too_short: 'The signing code must be at least 6 characters.', bad_name: 'Please enter the name of the concerned person.',
@@ -78,7 +81,13 @@
     agTitle: 'تفاصيل الدفع', agSub: 'أدخل المبالغ المتفق عليها. تُحفظ لقسم الحسابات وتُستخدم في العقد.',
     agTotal: 'إجمالي المبلغ (ريال)', agDeposit: 'العربون المدفوع (ريال)', agInsurance: 'مبلغ التأمين (ريال)',
     agRemaining: 'المتبقي (ريال)', agSaveBtn: 'حفظ', agSkip: 'إغلاق', agBtn: 'العقد',
-    tabBookings: 'الحجوزات', tabAccounts: 'الحسابات',
+    tabBookings: 'الحجوزات', tabAccounts: 'الحسابات', tabRem: 'تذكير بالمتبقي',
+    rmIntro: 'العملاء الذين لديهم مبلغ متبقي. يفتح واتساب برسالة جاهزة بلغة العميل، ثم اضغط إرسال في واتساب. (واتساب لا يسمح لصفحة ويب بإرسال الرسائل بنفسها.)',
+    rmCustL: 'عملاء لديهم مبلغ متبقي', rmTotalL: 'إجمالي المبلغ المتبقي (ريال)', rmPendL: 'يحتاجون تذكيراً الآن', rmSkipL: 'تخطّي من تم تذكيرهم خلال',
+    rmDays0: 'لا تتخطَّ أحداً', rmDays1: 'يوم واحد', rmDays3: '3 أيام', rmDays7: '7 أيام', rmStart: 'إرسال التذكيرات واحداً تلو الآخر', rmOpen: 'افتح واتساب', rmSkip: 'تخطّي',
+    rmCustomerL: 'العميل', rmPhoneL: 'الجوال', rmBalL: 'المتبقي', rmLastL: 'آخر تذكير', rmNever: 'لم يُذكَّر بعد', rmSend: 'إرسال تذكير',
+    rmQueueOf: 'التذكير {i} من {n}', rmDone: 'تم إرسال جميع التذكيرات.', rmNone: 'لا يوجد عملاء لديهم مبلغ متبقي.', rmNothing: 'لا أحد يحتاج تذكيراً الآن.',
+    rmSaveFail: 'فُتح واتساب، لكن تعذّر حفظ التذكير في السجل (شغّل supabase_update_reminders.sql في Supabase).',
     acTotalL: 'إجمالي العقود (ريال)', acPaidL: 'إجمالي المستلم (ريال)', acRemainL: 'المتبقي للتحصيل (ريال)', acSecL: 'التأمين المحجوز (ريال)',
     thRef: 'رقم الحجز', thCustomer: 'العميل', thDate: 'تاريخ المناسبة', thStatus: 'الحالة', thTotal: 'الإجمالي (ريال)',
     thDeposit: 'العربون (ريال)', thRemaining: 'المتبقي (ريال)', thSecurity: 'التأمين (ريال)', thEdit: 'تعديل',
@@ -156,7 +165,7 @@
   function forget() { try { sessionStorage.removeItem('adm'); } catch (e) {} }
   function bumpIdle() { clearTimeout(idleTimer); if (code) idleTimer = setTimeout(lock, IDLE_MS); }
   function lock() {
-    code = null; rows = []; forget(); clearTimeout(idleTimer); fpLoaded = false; ['fpPin', 'fpPinNew', 'fpPinOld'].forEach(function (id) { $(id).value = ''; });
+    code = null; rows = []; forget(); clearTimeout(idleTimer); rmQ = null; rmDone = false; fpLoaded = false; ['fpPin', 'fpPinNew', 'fpPinOld'].forEach(function (id) { $(id).value = ''; });
     $('list').innerHTML = ''; $('code').value = '';
     if ($('agDialog').open) $('agDialog').close();
     if ($('payDialog').open) $('payDialog').close();
@@ -249,6 +258,23 @@
   }
   function isAgStatus(s) { return s === 'confirmed' || s === 'completed'; }
   function isWaStatus(s) { return s === 'confirmed' || s === 'cancelled'; }
+  // reminder for a customer who still owes a balance
+  function waRemindMessage(r) {
+    var ar = r.language === 'ar', loc = ar ? 'ar-SA' : 'en-GB', dt = gDate(r.event_date);
+    var opt = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    var g = new Intl.DateTimeFormat(loc + '-u-ca-gregory-nu-latn', opt).format(dt);
+    var h = new Intl.DateTimeFormat(loc + '-u-ca-islamic-umalqura-nu-latn', opt).format(dt);
+    var amt = fmtMoney(r.balance_due);
+    if (ar) {
+      return 'مرحباً ' + r.full_name + '،\nتذكير من مطاعم قلعة الشهباء بخصوص حجزكم رقم ' + r.reference + ' بتاريخ ' + g + ' (' + h + ').' +
+        '\nالمبلغ المتبقي المستحق: ' + amt + ' ريال سعودي.' +
+        '\nنأمل سداد المبلغ المتبقي قبل موعد المناسبة. وإذا تم السداد مسبقاً فنشكركم ونعتذر عن هذا التذكير.\nشكراً لكم.';
+    }
+    return 'Hello ' + r.full_name + ',\nA friendly reminder from Qalat Al-Shahba Restaurants about your booking ' + r.reference + ' for ' + g + ' (' + h + ').' +
+      '\nBalance due: SAR ' + amt + '.' +
+      '\nPlease settle the remaining amount before the event. If you have already paid, thank you, and please ignore this reminder.\nThank you.';
+  }
+  function waRemindLink(r) { return 'https://wa.me/' + toIntl(r.phone) + '?text=' + encodeURIComponent(waRemindMessage(r)); }
   function waLink(r) { return 'https://wa.me/' + toIntl(r.phone) + '?text=' + encodeURIComponent(waMessage(r)); }
   function showNotice(r) {
     $('noticeText').textContent = t(r.status === 'cancelled' ? 'waDoneCancel' : 'waDone');
@@ -693,7 +719,75 @@
     return b;
   }
 
+  // ---------- Balance reminders ----------
+  var rmQ = null, rmDone = false;
+  function rmDaysSel() { return +$('rmDays').value || 0; }
+  function rmRecent(r, days) { return !!days && !!r.last_reminder_at && Date.now() - new Date(r.last_reminder_at).getTime() < days * 864e5; }
+  function rmAll() {   // everybody who still owes money, the nearest event first
+    return rows.filter(canCollect).sort(function (a, b) { return (a.event_date + a.event_time) < (b.event_date + b.event_time) ? -1 : 1; });
+  }
+  function rmDue() { var d = rmDaysSel(); return rmAll().filter(function (r) { return !rmRecent(r, d); }); }
+  function rmWarn(text) { var m = $('rmMsg'); m.textContent = text; show(m, !!text); }
+  // remember that this customer was reminded (shown at once, saved in the database)
+  function markReminded(r) {
+    r.last_reminder_at = new Date().toISOString(); r.reminder_count = (+r.reminder_count || 0) + 1;
+    rpc('catering_admin_mark_reminded', { p_code: code, p_booking: r.id }).then(function (res) {
+      if (res && res.ok) { if (res.at) r.last_reminder_at = res.at; return; }
+      if (res && (res.error === 'invalid_code' || res.error === 'locked')) { lock(); return; }
+      rmWarn(t('rmSaveFail'));
+    }).catch(function () { rmWarn(t('rmSaveFail')); });
+  }
+  function sendReminder(r) {
+    var w = window.open(waRemindLink(r), '_blank');            // opened inside the click so browsers allow it
+    if (!w) { rmWarn(t('agBlocked')); return false; }
+    rmWarn(''); markReminded(r); return true;
+  }
+  function rmCard(r) {
+    var recent = rmRecent(r, rmDaysSel()), b = el('div', 'b' + (recent ? ' rm-recent' : ''));
+    var head = el('div', 'b-head'); head.appendChild(el('span', 'ref', r.reference)); b.appendChild(head);
+    b.appendChild(el('div', 'when', shortDate(r.event_date) + ' · ' + t('st_' + r.status)));
+    var dl = el('dl');
+    function row(k, v, cls) { dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', cls || null, v)); }
+    row(t('rmCustomerL'), r.full_name); row(t('rmPhoneL'), r.phone);
+    row(t('rmBalL'), fmtMoney(r.balance_due) + ' ' + t('sar'));
+    row(t('rmLastL'), r.last_reminder_at ? shortDate(String(r.last_reminder_at).slice(0, 10)) + ' (' + (+r.reminder_count || 1) + '×)' : t('rmNever'), 'rm-last' + (recent ? ' recent' : ''));
+    b.appendChild(dl);
+    var btn = el('button', 'wa rmbtn', t('rmSend')); btn.type = 'button';
+    btn.addEventListener('click', function () { if (sendReminder(r)) renderReminders(); });
+    b.appendChild(btn);
+    return b;
+  }
+  function renderReminders() {
+    var all = rmAll(), due = rmDue(), tot = 0;
+    all.forEach(function (r) { tot += +r.balance_due || 0; });
+    $('rmCust').textContent = all.length; $('rmTotal').textContent = fmtMoney(tot); $('rmPend').textContent = due.length;
+    var q = $('rmQueue'), cur = rmQ ? rowById(rmQ.ids[rmQ.i]) : null;
+    if (rmQ && cur) {
+      $('rmQueueText').textContent = t('rmQueueOf').replace('{i}', rmQ.i + 1).replace('{n}', rmQ.ids.length) + ' — ' + cur.full_name + ' · ' + cur.reference + ' · ' + fmtMoney(cur.balance_due) + ' ' + t('sar');
+      show(q, true); show($('rmOpen'), true); show($('rmSkipBtn'), true);
+    } else if (rmDone) {
+      $('rmQueueText').textContent = t('rmDone'); show(q, true); show($('rmOpen'), false); show($('rmSkipBtn'), false);
+    } else { show(q, false); }
+    var list = $('rmList'); list.innerHTML = '';
+    if (!all.length) list.appendChild(el('p', 'empty', t('rmNone')));
+    else all.forEach(function (r) { list.appendChild(rmCard(r)); });
+    $('rmStart').disabled = !due.length;
+  }
+  function rmAdvance() { rmQ.i++; if (rmQ.i >= rmQ.ids.length) { rmQ = null; rmDone = true; } renderReminders(); }
+  $('rmStart').addEventListener('click', function () {
+    var due = rmDue(); if (!due.length) { rmWarn(t('rmNothing')); return; }
+    rmWarn(''); rmDone = false; rmQ = { ids: due.map(function (r) { return r.id; }), i: 0 }; renderReminders();
+  });
+  $('rmOpen').addEventListener('click', function () {      // one WhatsApp window per click (browsers block several at once)
+    if (!rmQ) return; var r = rowById(rmQ.ids[rmQ.i]);
+    if (!r) { rmAdvance(); return; }
+    if (sendReminder(r)) rmAdvance();
+  });
+  $('rmSkipBtn').addEventListener('click', function () { if (rmQ) rmAdvance(); });
+  $('rmDays').addEventListener('change', function () { rmQ = null; rmDone = false; render(); });
+
   function stats() {
+    $('tabR').textContent = t('tabRem') + ' (' + rmDue().length + ')';
     var today = todayStr(), wk = new Date(); wk.setDate(wk.getDate() + 7);
     var w = wk.getFullYear() + '-' + pad(wk.getMonth() + 1) + '-' + pad(wk.getDate());
     $('sTotal').textContent = rows.length;
@@ -707,10 +801,14 @@
     view = v;
     $('tabB').classList.toggle('on', v === 'bookings'); $('tabB').setAttribute('aria-selected', v === 'bookings');
     $('tabA').classList.toggle('on', v === 'accounts'); $('tabA').setAttribute('aria-selected', v === 'accounts');
+    $('tabR').classList.toggle('on', v === 'reminders'); $('tabR').setAttribute('aria-selected', v === 'reminders');
+    if (v === 'reminders') { rmQ = null; rmDone = false; rmWarn(''); }
     render();
+    if (v === 'reminders') reloadRows();                    // fresh balances before reminding anyone
   }
   $('tabB').addEventListener('click', function () { setView('bookings'); });
   $('tabA').addEventListener('click', function () { setView('accounts'); });
+  $('tabR').addEventListener('click', function () { setView('reminders'); });
 
   function renderAccounts(data) {
     var body = $('acBody'), foot = $('acFoot'), sum = { t: 0, d: 0, c: 0, b: 0, s: 0 };
@@ -747,9 +845,11 @@
   }
 
   function render() {
-    var list = $('list'), data = filtered(), acc = view === 'accounts';
+    var list = $('list'), data = filtered(), acc = view === 'accounts', rem = view === 'reminders';
     stats();
-    show($('bkStats'), !acc); show($('acStats'), acc); show(list, !acc); show($('acWrap'), acc);
+    show($('bkStats'), !acc && !rem); show($('acStats'), acc); show(list, !acc && !rem); show($('acWrap'), acc);
+    show($('rmWrap'), rem); show($('toolbar'), !rem); show($('count'), !rem);
+    if (rem) { renderReminders(); return; }
     $('count').textContent = lang === 'ar'
       ? 'الحجوزات المعروضة: ' + data.length
       : data.length + (data.length === 1 ? ' booking shown' : ' bookings shown');

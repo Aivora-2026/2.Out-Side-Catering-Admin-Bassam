@@ -102,7 +102,7 @@ html[lang="ar"] dialog h2{font-family:"Tajawal",sans-serif}
 
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
 
-.tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
 .tab{padding:.55rem 1.4rem;font:700 1rem "Bricolage Grotesque",sans-serif;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:999px;cursor:pointer}
 .tab.on{background:var(--leaf);border-color:var(--leaf);color:var(--leaf-ink)}
 html[lang="ar"] .tab{font-family:"Tajawal",sans-serif}
@@ -171,3 +171,15 @@ html[lang="ar"] .pm{font-family:"Tajawal",sans-serif}
 html[lang="ar"] .fph{font-family:"Tajawal",sans-serif}
 #fpBox .sub{margin-top:.4rem}
 #fpBox > .sub:first-of-type{margin-top:.8rem}
+
+/* balance reminders */
+#rmWrap .sub{margin:0 0 1rem;max-width:46rem}
+#rmStats{grid-template-columns:repeat(3,1fr)}
+.rmbar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:.8rem 1rem;margin:0 0 1rem}
+.rmbar label{margin:0;min-width:15rem}
+.rmbar .go{width:auto;padding:.75rem 1.4rem}
+.rmbtn{border:0;cursor:pointer;font:700 1rem "Source Sans 3",sans-serif}
+html[lang="ar"] .rmbtn{font-family:"Tajawal",sans-serif}
+.b.rm-recent{opacity:.7}
+.rm-last.recent{color:var(--leaf)}
+@media (max-width:760px){#rmStats{grid-template-columns:1fr}.rmbar label{min-width:0;flex:1 1 100%}.rmbar .go{width:100%}}

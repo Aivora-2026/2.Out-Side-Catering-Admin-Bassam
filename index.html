@@ -44,6 +44,7 @@
     <div class="tabs" role="tablist">
       <button class="tab on" id="tabB" type="button" role="tab" aria-selected="true" data-i18n="tabBookings">Bookings</button>
       <button class="tab" id="tabA" type="button" role="tab" aria-selected="false" data-i18n="tabAccounts">Accounts</button>
+      <button class="tab" id="tabR" type="button" role="tab" aria-selected="false">Balance reminders</button>
     </div>
 
     <div class="stats" id="bkStats">
@@ -59,7 +60,7 @@
       <div><b id="acSec">0</b><span data-i18n="acSecL">Security deposits held (SAR)</span></div>
     </div>
 
-    <div class="toolbar">
+    <div class="toolbar" id="toolbar">
       <input id="q" type="search" placeholder="Search name, phone, number or city" data-i18n-ph="searchPh" aria-label="Search">
       <select id="fStatus" aria-label="Status">
         <option value="" data-i18n="allStatuses">All statuses</option>
@@ -93,6 +94,33 @@
         <tbody id="acBody"></tbody>
         <tfoot id="acFoot"></tfoot>
       </table>
+    </div>
+
+    <div id="rmWrap" hidden>
+      <p class="sub" data-i18n="rmIntro">Customers who still owe a balance. WhatsApp opens with a ready message in the customer's language; press Send in WhatsApp. (WhatsApp does not let a web page send messages by itself.)</p>
+      <div class="stats" id="rmStats">
+        <div><b id="rmCust">0</b><span data-i18n="rmCustL">Customers with a balance due</span></div>
+        <div><b id="rmTotal">0</b><span data-i18n="rmTotalL">Total balance due (SAR)</span></div>
+        <div><b id="rmPend">0</b><span data-i18n="rmPendL">To remind now</span></div>
+      </div>
+      <div class="rmbar">
+        <label><span data-i18n="rmSkipL">Skip customers reminded in the last</span>
+          <select id="rmDays">
+            <option value="0" data-i18n="rmDays0">Do not skip anyone</option>
+            <option value="1" data-i18n="rmDays1">1 day</option>
+            <option value="3" data-i18n="rmDays3" selected>3 days</option>
+            <option value="7" data-i18n="rmDays7">7 days</option>
+          </select>
+        </label>
+        <button class="go" id="rmStart" type="button" data-i18n="rmStart">Send reminders one by one</button>
+      </div>
+      <div class="notice" id="rmQueue" role="status" hidden>
+        <span id="rmQueueText"></span>
+        <button class="wa rmbtn" id="rmOpen" type="button" data-i18n="rmOpen">Open WhatsApp</button>
+        <button class="ghost" id="rmSkipBtn" type="button" data-i18n="rmSkip">Skip</button>
+      </div>
+      <p class="err" id="rmMsg" role="status" hidden></p>
+      <div class="list" id="rmList"></div>
     </div>
 
     <details class="card change" id="fpBox">
