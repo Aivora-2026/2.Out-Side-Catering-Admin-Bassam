@@ -191,3 +191,33 @@ textarea{display:block;width:100%;min-height:5rem;margin-top:.3rem;padding:.7rem
 .chefs{margin-top:-.2rem}
 .chefbtn{border:0;cursor:pointer;font:700 1rem "Source Sans 3",sans-serif}
 html[lang="ar"] .chefbtn{font-family:"Tajawal",sans-serif}
+
+/* Accounts: on phones each customer becomes a card instead of a wide scrolling table */
+@media (max-width:760px){
+  #acStats b{font-size:1.3rem;overflow-wrap:anywhere}
+  .tablewrap{overflow:visible;background:none;border:0;border-radius:0}
+  .ac{min-width:0;display:block}
+  .ac thead{display:none}
+  .ac tbody,.ac tfoot{display:block}
+  .ac tbody tr,.ac tfoot tr{display:grid;grid-template-columns:1fr 1fr;gap:.45rem .8rem;align-items:start;margin:0 0 .8rem;padding:.9rem 1rem;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+  .ac tfoot tr{background:#FFF4D1;border-color:var(--gold)}
+  .ac td{display:block;min-width:0;padding:0;border:0;white-space:normal;font-size:.95rem;overflow-wrap:anywhere}
+  .ac tfoot td{background:none;font-weight:800}
+  .ac td[colspan]{grid-column:1/-1}
+  .ac td:empty{display:none}
+  .ac tbody td:nth-child(1){grid-column:1;grid-row:1;font:800 1.1rem "Bricolage Grotesque",sans-serif}
+  .ac tbody td:nth-child(4){grid-column:2;grid-row:1;justify-self:end}
+  .ac tbody td:nth-child(2){grid-column:1/-1;font-weight:700;font-size:1.05rem}
+  .ac tbody td:nth-child(3){grid-column:1/-1;color:var(--muted);margin-top:-.25rem}
+  .ac tfoot td:nth-child(1){grid-column:1/-1;grid-row:auto;font:800 1.05rem "Bricolage Grotesque",sans-serif}
+  .ac td.num{direction:inherit;text-align:start;font-weight:700;padding:.35rem .6rem;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+  .ac td.num::before{content:attr(data-label);display:block;color:var(--muted);font-size:.8rem;font-weight:600;line-height:1.25;margin-bottom:.1rem}
+  .ac td.num:nth-child(8){background:#FFF4D1;border-color:var(--gold)}
+  .ac tfoot td.num{background:var(--surface)}
+  .ac tfoot td.num:nth-child(5){border-color:var(--gold)}
+  .ac td:last-child:not(:empty){grid-column:1/-1}
+  .ac .acts{flex-wrap:wrap;gap:.5rem}
+  .ac .acts .mini{flex:1 1 40%;min-height:42px;font-size:.95rem}
+  html[lang="ar"] .ac tbody td:nth-child(1){font-family:"Tajawal",sans-serif}
+}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}

@@ -771,31 +771,54 @@
   }
   function chefSentGet() { try { return JSON.parse(localStorage.getItem('chefSent') || '{}') || {}; } catch (e) { return {}; } }
   function chefSentSet(id) { var m = chefSentGet(); m[id] = new Date().toISOString(); try { localStorage.setItem('chefSent', JSON.stringify(m)); } catch (e) {} }
-  function chefItems(r) {
+  var CHEF_ITEMS = {"ساندوتش دجاج": "Chicken sandwich", "ساندوتش طماطم بالجبنه": "Tomato and cheese sandwich", "ساندوتش تونه": "Tuna sandwich", "رول بيض بالجبنه": "Egg and cheese roll", "بيتزا دجاج صغير": "Mini chicken pizza", "رول سجق": "Sausage pastry roll", "ساندوتش جبنه بالمربي": "Jam and cheese sandwich", "برجر صغير": "Mini burger", "فطائر مشكل": "Mixed fatayer", "كرواسون صغير": "Mini croissant", "كب كيك": "Cupcakes", "كيكة موز": "Banana cake", "دونات صغيرة": "Mini doughnuts", "بسكويت مشكل": "Assorted biscuits", "سويس رول": "Swiss roll", "بيتي فور": "Petit four", "ساندوتش موزرلا": "Mozzarella sandwich", "ساندوتش لبنه عسل": "Labneh and honey sandwich", "كب ميني": "Mini kibbeh", "سبرين رول": "Spring roll", "سمبوسه دجاج": "Chicken samosa", "سمبوسه لحم": "Lamb samosa", "كيكة الزبدة": "Butter cake", "كيكه المافن": "Muffin cake", "لفائف القرفة": "Cinnamon rolls", "كوفي كيك": "Coffee cake", "بطاطس شبس": "Potato chips", "رقائق الزرة": "Cornflakes", "سلطه فواكه": "Fruit salad", "قهوة عربي": "Arabic coffee", "قهوة تركي": "Turkish coffee", "شاي نسكوفية": "Tea and Nescafe", "ماء": "Water", "عصير": "Juice", "سلطة خضار مشكل": "Mixed vegetable salad", "لبنة مع زيت الزيتون": "Labneh with olive oil", "زيتون مشكل": "Mixed olives", "حلاوة بالطحينية": "Halawa with tahini", "اجبان مشكلة": "Mixed cheeses", "مربى": "Jam", "زبده": "Butter", "حمص": "Hummus", "سلطة بطاطس إيطالي مع البيض المسلوق": "Italian potato salad with boiled eggs", "سبنجرول": "Spring roll", "سمبوسة بالجبن": "Cheese samosa", "كبة ميني": "Mini kibbeh", "بيض مسلوق": "Boiled eggs", "فول سفير": "Fava beans", "شكشوكة": "Shakshouka", "بطاطس مشوي": "Roasted potatoes", "مقلقل لحم": "Meat stir-fry", "فطاير مشكلة": "Mixed pies", "كرواسون": "Croissant", "دونات": "Donut", "خبز شامي": "Shami bread", "خبز بر": "Wholemeal bread", "خبز توست": "Toast bread", "سلطة فواكه": "Fruit salad", "بان كيك": "Pancakes", "كورن فليكس مع الحليب": "Corn flakes with milk", "مهلبية": "Custard", "كريم كرميل": "Crème caramel", "شوفان بالحليب": "Oatmeal with milk", "ام علي": "Umm Ali", "نسكافيه": "Nescafe", "شاي": "Tea", "شاي بالحليب": "Milk tea", "عصير مشكل": "Mixed juice"};
+  var CHEF_CITY = { 'الباحة': 'Al-Baha', 'بني سار': 'Bani Sar', 'بني كبير': 'Bani Kabir', 'بلجرشي': 'Baljurashi', 'العقيق': 'Al-Aqiq', 'المندق': 'Al-Mandaq',
+    'الاطاولة': 'Al-Atawlah', 'جرب': 'Jarab', 'المخواه': 'Al-Makhwah', 'نمرة': 'Namirah', 'كرا': 'Kara', 'وراخ': 'Warakh', 'نخال': 'Nakhal',
+    'معشوقة': 'Mashouqah', 'بيده': 'Bidah', 'بني حسن': 'Bani Hassan', 'بالشهم': 'Balshahm', 'البشائر': 'Al-Bashaer' };
+  var CHEF_BUFFET = { 'بوفية الجمعات الصغيرة - الباحة فقط': 'Small Buffet only for Al-Baha', 'بوفيه كوفي بريك': 'Coffee break Buffet', 'بوفيه VIP ملكي': 'VIP King Buffet',
+    'بوفيه الفضي': 'Silver Buffet', 'بوفيه فطور': 'Breakfast Buffet' };
+  function chefNoPrice(txt) {    // remove every SAR amount, so chefs only see what is served
+    return String(txt).replace(/\s*[\u2013-]\s*SAR\s*[\d,.]+(?:\s*per person)?(?:\s*\u00d7\s*\d+\s*guests\s*=\s*SAR\s*[\d,.]+)?/g, '').trim();
+  }
+  // The booking notes hold the buffet, package and menu items in Arabic and English; pick the English parts and drop the price line.
+  function chefParts(r) {
+    var o = { buffet: '', pkg: '', items: '', notes: [] };
+    String(r.notes || '').split(/\r?\n/).forEach(function (line) {
+      var m;
+      if ((m = line.match(/^Buffet type \/ [^:]*:\s*(.*?)\s*\/\s*[^\/]*$/))) { o.buffet = m[1]; return; }
+      if ((m = line.match(/^Package \/ [^:]*:\s*(.*?)\s*\/\s*[^\u2013]*[\u0600-\u06FF].*$/))) { o.pkg = chefNoPrice(m[1]); return; }
+      if (/^Price \/ /.test(line)) return;                                   // price line: not for the chefs
+      if ((m = line.match(/^[^:]*\/[^:()]*\(\d+\):\s*(.*)$/))) {              // menu items (written in Arabic by the booking form)
+        o.items = m[1].split(/\s*\u060c\s*/).map(function (x) { x = x.trim(); return CHEF_ITEMS[x] || x; }).filter(Boolean).join(', '); return;
+      }
+      if (line.trim()) o.notes.push(line.trim());                             // what the customer typed himself
+    });
+    return o;
+  }
+  function chefItems(r) {         // exact English item names when the booking details record is returned
     var it = r.menu_items; if (typeof it === 'string') { try { it = JSON.parse(it); } catch (e) { it = null; } }
     if (!Array.isArray(it)) return '';
-    return it.map(function (x) { return typeof x === 'string' ? x : (lang === 'ar' ? (x.ar || x.en) : (x.en || x.ar)); }).filter(Boolean).join(lang === 'ar' ? '، ' : ', ');
+    return it.map(function (x) { return typeof x === 'string' ? (CHEF_ITEMS[x] || x) : (x.en || CHEF_ITEMS[x.ar] || x.ar); }).filter(Boolean).join(', ');
   }
+  // Always English, no map link and no prices.
   function chefMessage(r) {
-    var ar = lang === 'ar', dt = gDate(r.event_date), loc = ar ? 'ar-SA' : 'en-GB';
-    var opt = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    var g = new Intl.DateTimeFormat(loc + '-u-ca-gregory-nu-latn', opt).format(dt);
-    var h = new Intl.DateTimeFormat(loc + '-u-ca-islamic-umalqura-nu-latn', opt).format(dt);
-    var tm = new Date('2000-01-01T' + r.event_time).toLocaleTimeString(loc + '-u-nu-latn', { hour: 'numeric', minute: '2-digit' });
-    var place = [r.address, r.district, r.city].filter(Boolean).join(ar ? '، ' : ', ');
-    var map = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent([r.address, r.district, r.city, 'Saudi Arabia'].join(' '));
-    var buffet = (ar ? (r.buffet_name_ar || r.buffet_name) : (r.buffet_name || r.buffet_name_ar)) || r.menu || r.event_type || '';
-    var pkg = (ar ? (r.package_label_ar || r.package_label) : (r.package_label || r.package_label_ar)) || '';
-    var items = chefItems(r);
-    var L = ['*' + t('cmHead') + '*', t('cmRef') + ': ' + r.reference, '',
-      t('cmDate') + ': ' + g + ' (' + h + ')', t('cmTime') + ': ' + tm,
-      t('cmPlace') + ': ' + place, t('cmMap') + ': ' + map,
-      t('cmGuests') + ': ' + r.guests];
-    if (buffet) L.push(t('cmBuffet') + ': ' + buffet);
-    if (pkg) L.push(t('cmPackage') + ': ' + pkg);
-    if (items) L.push(t('cmItems') + ': ' + items);
-    if (r.notes) L.push('', t('cmNotes') + ': ' + r.notes);
-    L.push('', t('cmCustomer') + ': ' + r.full_name, '', t('cmFoot'));
+    var dt = gDate(r.event_date), opt = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    var g = new Intl.DateTimeFormat('en-GB-u-ca-gregory-nu-latn', opt).format(dt);
+    var h = new Intl.DateTimeFormat('en-GB-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'long', year: 'numeric' }).format(dt);
+    var tm = new Date('2000-01-01T' + r.event_time).toLocaleTimeString('en-GB-u-nu-latn', { hour: 'numeric', minute: '2-digit', hour12: true });
+    var p = chefParts(r);
+    var buffet = r.buffet_name || p.buffet || CHEF_BUFFET[r.menu] || r.event_type || r.menu || '';
+    var pkg = chefNoPrice(r.package_label || '') || p.pkg;
+    var items = chefItems(r) || p.items;
+    var place = [r.address, r.district, CHEF_CITY[r.city] || r.city].filter(Boolean).join(', ');
+    var L = ['*NEW CONFIRMED ORDER*', 'Booking no.: ' + r.reference, '',
+      'Date: ' + g + ' (' + h + ')', 'Serving time: ' + tm,
+      'Location: ' + place, 'Guests: ' + r.guests];
+    if (buffet) L.push('Buffet: ' + buffet);
+    if (pkg) L.push('Package: ' + pkg);
+    if (items) L.push('Menu items: ' + items);
+    if (p.notes.length) L.push('', 'Customer notes: ' + p.notes.join(' '));
+    L.push('', 'Customer: ' + r.full_name, '', 'Please confirm you received this.');
     return L.join('\n');
   }
   function chefLink(r, chef) { return 'https://wa.me/' + chef.num + '?text=' + encodeURIComponent(chefMessage(r)); }
@@ -913,7 +936,7 @@
   function renderAccounts(data) {
     var body = $('acBody'), foot = $('acFoot'), sum = { t: 0, d: 0, c: 0, b: 0, s: 0 };
     body.innerHTML = ''; foot.innerHTML = '';
-    function td(text, cls) { return el('td', cls || null, text); }
+    function td(text, cls, label) { var c = el('td', cls || null, text); if (label) c.setAttribute('data-label', label); return c; }
     data.forEach(function (r) {
       var tr = el('tr');
       var ref = td(r.reference); ref.dir = 'ltr'; ref.style.textAlign = 'start'; tr.appendChild(ref);
@@ -921,7 +944,8 @@
       tr.appendChild(td(shortDate(r.event_date)));
       var st = el('td'); var badge = el('span', 'st', t('st_' + r.status)); badge.dataset.status = r.status; st.appendChild(badge); tr.appendChild(st);
       var bal = r.status === 'cancelled' ? null : r.balance_due;            // nothing to collect on cancelled bookings
-      [r.total_amount, r.deposit_paid, r.collected_amount, bal, r.security_deposit].forEach(function (v) { tr.appendChild(td(fmtMoney(v), 'num')); });
+      var moneyL = [t('thTotal'), t('thDeposit'), t('thCollected'), t('thBalance'), t('thSecurity')];
+      [r.total_amount, r.deposit_paid, r.collected_amount, bal, r.security_deposit].forEach(function (v, i) { tr.appendChild(td(fmtMoney(v), 'num', moneyL[i])); });
       sum.t += +r.total_amount || 0; sum.d += +r.deposit_paid || 0; sum.c += +r.collected_amount || 0;
       sum.b += +bal || 0; sum.s += +r.security_deposit || 0;
       var ac = el('td'), acw = el('div', 'acts'); ac.appendChild(acw);
@@ -937,7 +961,8 @@
       var er = el('tr'), ec = el('td', null, t('empty')); ec.colSpan = 10; ec.style.textAlign = 'center'; er.appendChild(ec); body.appendChild(er);
     } else {
       var fr = el('tr'), lab = el('td', null, t('totalsRow')); lab.colSpan = 4; fr.appendChild(lab);
-      [sum.t, sum.d, sum.c, sum.b, sum.s].forEach(function (v) { fr.appendChild(el('td', 'num', fmtMoney(v))); });
+      var sumL = [t('thTotal'), t('thDeposit'), t('thCollected'), t('thBalance'), t('thSecurity')];
+      [sum.t, sum.d, sum.c, sum.b, sum.s].forEach(function (v, i) { fr.appendChild(td(fmtMoney(v), 'num', sumL[i])); });
       fr.appendChild(el('td')); foot.appendChild(fr);
     }
     $('acTotal').textContent = fmtMoney(sum.t); $('acPaid').textContent = fmtMoney(sum.d + sum.c);
